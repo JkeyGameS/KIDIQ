@@ -1,40 +1,519 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JkeyGameS | Gamer & Bot Developer</title>
-<style>
-  /* Reset & base */
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: "Segoe UI", sans-serif;
-    background: #0a0a0a;
-    color: #0ff;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KIDIQ | English Learning Channel</title>
+  <link rel="icon" href="AddText_08-16-02.06.30.jpg">
+  <style>
+    :root {
+      --primary: #19a974;
+      --accent: #ffb41e;
+      --bg-light: #f6fafc;
+      --bg-dark: #0a102a;
+      --text: #112;
+      --card-bg: #fff;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      margin: 0; padding: 0; min-height:100vh;
+      overflow-x: hidden;
+      display: flex; flex-direction: column; align-items: center;
+      position:relative;
+      transition: background 0.5s, color 0.5s;
+    }
+    .animated-bg {
+      position:fixed;
+      top:0; left:0; right:0; bottom:0;
+      width:100%; height:100%;
+      overflow:hidden;
+      z-index:-1;
+    }
+    body.light .animated-bg {
+      background: linear-gradient(to bottom, #87cefa, #f6fafc);
+      animation: skyDay 20s linear infinite alternate;
+    }
+    body.dark .animated-bg {
+      background: linear-gradient(to bottom, #0a102a, #233560);
+      animation: skyNight 25s linear infinite alternate;
+    }
+    .sun, .moon {
+      position:absolute;
+      border-radius:50%;
+      animation: floatAcross 40s linear infinite;
+      top: 10%;
+      left: -10%;
+    }
+    .sun {
+      width:80px; height:80px;
+      background:#ffdd55;
+      box-shadow:0 0 60px #ffd;
+    }
+    .moon {
+      width:60px; height:60px;
+      background:#fff;
+      box-shadow:0 0 30px #eef;
+      top: 20%;
+    }
+    .cloud {
+      position:absolute; background:#fff;
+      border-radius:50%;
+      opacity:0.8;
+      animation: cloudMove 60s linear infinite;
+    }
+    .cloud::before, .cloud::after {
+      content:""; position:absolute; background:#fff; border-radius:50%;
+    }
+    .cloud::before { width:60px; height:60px; left:-30px; top:-20px; }
+    .cloud::after { width:70px; height:70px; left:40px; top:-10px; }
+    .star {
+      position:absolute;
+      width:2px; height:2px;
+      background:#fff;
+      border-radius:50%;
+      opacity:0.7;
+      animation: twinkle 3s infinite alternate;
+      display: none;
+    }
+    @keyframes floatAcross { from{ left:-10%; } to{ left:110%; } }
+    @keyframes cloudMove { from{ left:-20%; } to{ left:120%; } }
+    @keyframes skyDay { from{ filter:brightness(1); } to{ filter:brightness(1.1); } }
+    @keyframes skyNight { from{ filter:brightness(0.7); } to{ filter:brightness(0.9); } }
+    @keyframes twinkle { from{ opacity:0.3; } to{ opacity:1; } }
+    header { margin:2rem 0 1rem 0; display:flex; flex-direction:column; align-items:center; z-index:2; }
+    #logo { width:100px; height:100px; object-fit:contain; border-radius:20%; background:#fff; box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+    h1 { margin:1rem 0 0.4rem 0; font-size:2rem; color:var(--primary); text-shadow:0 2px 4px #fff7; }
+    .tagline { color:#555; font-size:1.1rem; margin-bottom:0.5rem; text-align:center; }
+    .buttons { display:flex; gap:0.7rem; margin-bottom:1.3rem; flex-wrap:wrap; justify-content:center; }
+    .buttons a, #themeToggle, #editProfileBtn, #audioBtnPhrase, #audioBtnIdiom {
+      background:var(--primary); color:#fff; padding:0.7rem 1.3rem;
+      text-decoration:none; font-weight:600; border-radius:24px;
+      box-shadow:0 2px 8px #19a97433;
+      display: flex; align-items: center; gap: 0.5em;
+      transition: background 0.3s; border: none; cursor: pointer;
+    }
+    .buttons a:hover, #themeToggle:hover, #editProfileBtn:hover, #audioBtnPhrase:hover, #audioBtnIdiom:hover { background:var(--accent); color:#222; }
+    main { max-width:500px; width:95vw; margin:0 auto; z-index:2; }
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px #0002;
+      padding: 1.6rem 1.2rem;
+      margin-bottom: 1.7rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+      transition: background 0.4s;
+    }
+    .card h2 {
+      margin-top:0; color:var(--primary);
+      display:flex; align-items:center; gap:0.4em;
+      font-size:1.3rem;
+    }
+    .card p { font-size:1rem; margin:0.5rem 0; }
+    .card button { background:var(--primary); border:none; color:#fff; padding:0.5rem 1rem; border-radius:10px; cursor:pointer; }
+    .card button:hover { background:var(--accent); color:#222; }
+    .flashcard { width: 150px; height: 100px; perspective: 1000px; margin:1em auto; cursor:pointer; position: relative; }
+    .flashcard div {
+      width: 100%; height: 100%; backface-visibility: hidden;
+      border-radius: 10px; display:flex; align-items:center; justify-content:center;
+      position:absolute; transition:transform 0.6s; font-weight: bold;
+    }
+    .flashcard .front { background:var(--primary); color:#fff; }
+    .flashcard .back { background:var(--accent); color:#222; transform: rotateY(180deg);}
+    .flashcard.flip .front { transform: rotateY(180deg);}
+    .flashcard.flip .back { transform: rotateY(360deg);}
+    #streakBox {
+      position:fixed;top:8px;right:8px; background:#fff; padding:6px 12px;
+      border-radius:8px; box-shadow:0 2px 6px #0002; font-weight:600; z-index:999;
+      text-align:center;
+      font-size: 1rem;
+      min-width: 140px;
+    }
+    body.dark #streakBox { background:#222; color:#ffb41e;}
+    #xpBarWrapper { background:#ddd; border-radius:10px; height:14px; margin-top:6px; }
+    #xpBar { background:var(--primary); height:100%; border-radius:10px; width:0%; transition:width 0.3s; }
+    #dictPopup {
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+      background:var(--card-bg); padding:1rem; border-radius:12px; box-shadow:0 4px 16px #0004;
+      display:none; max-width:320px; z-index:1000;
+    }
+    #profileCard {
+      text-align: center;
+      margin-bottom: 1.7rem;
+    }
+    #avatarDisplay {
+      font-size: 3rem;
+      cursor: pointer;
+    }
+    #profileName {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin: 0.2rem 0;
+    }
+    #editProfileBtn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 24px;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #19a97433;
+      transition: background 0.3s;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 40px;
+    }
+    #editProfileBtn:hover {
+      background: var(--accent);
+      color: #222;
+    }
+    #badgeDisplay {
+      margin-top: 10px;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    #progressHistory {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+    #requestReportBtn {
+      margin-top: 10px;
+      background: var(--accent);
+      color: #222;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 8px #ffb41e99;
+      transition: background 0.3s;
+    }
+    #requestReportBtn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    #feedbackBtn {
+      background: var(--accent);
+      color: #222;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      box-shadow: 0 2px 8px #ffb41e99;
+      transition: background 0.3s;
+      display: block;
+      margin: 0 auto;
+      margin-top: 40px;
+      margin-bottom: 2rem;
+    }
+    #feedbackBtn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    #quizCard.disabled {
+      opacity: 0.6;
+      pointer-events: none;
+      user-select: none;
+    }
+    #wordOfDay {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+    }
+    @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+  </style>
+</head>
+<body class="light">
+  <div class="animated-bg" id="animatedBg">
+    <div class="sun" id="bgSun"></div>
+    <div class="moon" id="bgMoon" style="display:none;"></div>
+    <div class="cloud" style="top:20%; left:10%; width:100px; height:50px;"></div>
+    <div class="cloud" style="top:40%; left:60%; width:120px; height:60px;"></div>
+    <div class="star" style="top:15%; left:30%;"></div>
+    <div class="star" style="top:25%; left:70%;"></div>
+    <div class="star" style="top:50%; left:50%;"></div>
+    <div class="star" style="top:70%; left:20%;"></div>
+  </div>
+  <button id="themeToggle" title="Switch theme" style="position:fixed;top:10px;left:14px;z-index:1001;" tabindex="0" aria-label="Switch theme">🌛</button>
+  <header role="banner">
+    <img src="/storage/emulated/0/Pictures/AddText/AddText_08-16-02.06.30.jpg" alt="KIDIQ Logo" id="logo">
+    <h1>KIDIQ</h1>
+    <div class="tagline">TIME TO LEARN ENGLISH</div>
+    <div class="buttons">
+      <a href="https://wa.me/YOURWHATSAPPGROUPLINK" target="_blank" tabindex="0" aria-label="WhatsApp">CHANNEL</a>
+      <a href="https://wa.me/?text=Join%20me%20for%20daily%20English%20lessons%20at%20KIDIQ%3A%20YOURSITEURL" target="_blank" tabindex="0" aria-label="Share channel link">SHARE</a>
+      <a href="#" id="msgBtn" tabindex="0" aria-label="Message">MESSAGE</a>
+    </div>
+  </header>
+  <main>
+    <div class="card" id="profileCard">
+      <div id="avatarDisplay" title="Click to change avatar" tabindex="0" aria-pressed="false" role="button">🐱</div>
+      <div id="profileName">Guest</div>
+      <button id="editProfileBtn" tabindex="0"
+      aria-label="Edit Profile">EDIT PROFILE </button>
+      <div id="profileStats">
+        <span id="profileStreak"></span><br>
+        <span id="profileXP"></span>
+        <div id="badgeDisplay">🏅 Badges: None</div>
+      </div>
+      <div id="progressHistory">📊 Progress History: (coming soon)</div>
+      <button id="requestReportBtn" tabindex="0" aria-label="Request Progress Report">Request Progress Report</button>
+    </div>
+    <div class="card">
+      <h2>📖 Phrase of the Day</h2>
+      <p>It’s <span class="clickWord" data-fr="pleut beaucoup" style="cursor:pointer; color:var(--primary);">raining</span> cats and dogs.</p>
+      <button id="audioBtnPhrase" tabindex="0" aria-label="Listen Phrase of the Day">🔊 Listen</button>
+    </div>
+    <div class="card">
+      <h2>✨ Idiom</h2>
+      <p>Break a <span class="clickWord" data-fr="jambe" style="cursor:pointer; color:var(--primary);">leg</span>!</p>
+      <button id="audioBtnIdiom" tabindex="0" aria-label="Listen Idiom">🔊 Listen</button>
+    </div>
+    <div class="card">
+      <h2>Flashcard</h2>
+      <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false" aria-label="Flashcard: click or press enter to flip">
+        <div class="front">🐱 Cat</div>
+        <div class="back">Chat (FR)</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>🌱 Word of the Day</h2>
+      <div id="wordOfDay" aria-live="polite"></div>
+    </div>
+    <div class="card" id="quoteCard" aria-live="polite">
+      <h2>Motivation</h2>
+      <div id="quoteText"></div>
+    </div>
+    <div class="card" id="quizCard" aria-live="polite">
+      <h2>Mini Quiz</h2>
+      <div id="quizQ"></div>
+      <div id="quizOpts"></div>
+      <div id="quizResult" style="margin-top:0.5rem;font-weight:bold;" aria-live="assertive"></div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <h2>Your Progress</h2>
+      <div id="xpBarWrapper" aria-label="Experience progress bar" style="margin-bottom:0.6rem;">
+        <div id="xpBar"></div>
+      </div>
+      <div id="userLevel" style="font-weight:600; font-size:1.1rem; color:var(--primary);"></div>
+    </div>
+    <button id="feedbackBtn" tabindex="0" aria-label="Send Feedback">Send Feedback</button>
+  </main>
+  <div id="streakBox" aria-live="polite"></div>
+  <div id="dictPopup"></div>
+  <script>
+    // 1. THEME & BACKGROUND
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+    const sun = document.getElementById("bgSun");
+    const moon = document.getElementById("bgMoon");
+    const stars = document.querySelectorAll(".star");
 
-  a { color: #0ff; text-decoration: none; }
+    let theme = localStorage.getItem("theme") || "light";
+    setTheme(theme);
+    themeToggle.onclick = () => {
+      theme = (theme === "light") ? "dark" : "light";
+      setTheme(theme);
+    };
+    function setTheme(mode) {
+      if (mode === "dark") {
+        body.classList.add("dark");
+        body.classList.remove("light");
+        themeToggle.textContent = "🌞";
+        sun.style.display = "none";
+        moon.style.display = "block";
+        stars.forEach(s => s.style.display = "block");
+      } else {
+        body.classList.add("light");
+        body.classList.remove("dark");
+        themeToggle.textContent = "🌛";
+        sun.style.display = "block";
+        moon.style.display = "none";
+        stars.forEach(s => s.style.display = "none");
+      }
+      localStorage.setItem("theme", mode);
+    }
 
-  header {
-    position: sticky;
-    top:0;
-    background: rgba(0,0,0,0.85);
-    padding: 20px 0;
-    font-size: 1.8em;
-    font-weight: bold;
-    text-align: center;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-    z-index: 100;
-    transition: 0.3s;
-  }
+    // 2. PROFILE MANAGEMENT
+    const avatarDisplay = document.getElementById('avatarDisplay');
+    const profileName = document.getElementById('profileName');
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const profileStreak = document.getElementById('profileStreak');
+    const profileXP = document.getElementById('profileXP');
 
-  nav a {
-    margin: 0 15px;
-    font-size: 1em;
-  }
+    function loadProfile() {
+      profileName.textContent = localStorage.getItem('profileName') || "Guest";
+      avatarDisplay.textContent = localStorage.getItem('avatar') || "🐱";
+      profileStreak.textContent = `🔥 Current Streak: ${localStorage.getItem('studyStreak') || 0} day(s)`;
+      profileXP.textContent = `⭐ Total XP: ${localStorage.getItem('totalXP') || 0}`;
+    }
+    function saveProfile(name, avatar) {
+      localStorage.setItem('profileName', name);
+      localStorage.setItem('avatar', avatar);
+      loadProfile();
+    }
+    loadProfile();
+editProfileBtn.onclick = () => {
+  // Show current values in prompts
+  let nameInput = prompt("Enter your name:", profileName.textContent);
+  let avatarInput = prompt("Choose an emoji for your avatar (e.g. 🐱 🌟 🍀):", avatarDisplay.textContent);
+  // If user cancels (returns null), keep existing value
+  let name = (nameInput === null) ? profileName.textContent : nameInput;
+  let avatar = (avatarInput === null) ? avatarDisplay.textContent : avatarInput;
+  saveProfile(name, avatar);
+};
 
+    // 3. STREAK LOGIC
+    const streakKey = "studyStreak", lastVisitKey = "lastVisit";
+    let streak = parseInt(localStorage.getItem(streakKey)) || 0;
+    const lastVisit = localStorage.getItem(lastVisitKey);
+    const today = new Date().toDateString();
+    if (lastVisit !== today) {
+      streak = (lastVisit && (new Date(lastVisit).getTime() + 86400000 === new Date(today).getTime())) ? streak + 1 : 1;
+      localStorage.setItem(streakKey, streak);
+      localStorage.setItem(lastVisitKey, today);
+    }
+    document.getElementById("streakBox").textContent = `🔥 Streak: ${streak} day${streak > 1 ? 's' : ''}`;
+    profileStreak.textContent = `🔥 Current Streak: ${streak} day(s)`;
+
+    // 4. FLASHCARD
+    const flashcard = document.getElementById("flashcard");
+    flashcard.onclick = () => {
+      flashcard.classList.toggle("flip");
+      let pressed = flashcard.getAttribute('aria-pressed') === 'true';
+      flashcard.setAttribute('aria-pressed', (!pressed).toString());
+    };
+    flashcard.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        flashcard.classList.toggle("flip");
+        let pressed = flashcard.getAttribute('aria-pressed') === 'true';
+        flashcard.setAttribute('aria-pressed', (!pressed).toString());
+      }
+    });
+
+    // 5. AUDIO LESSONS
+    const audioBtnPhrase = document.getElementById("audioBtnPhrase");
+    const audioBtnIdiom = document.getElementById("audioBtnIdiom");
+    audioBtnPhrase.onclick = () => {
+      if (window.speechSynthesis) {
+        const u = new SpeechSynthesisUtterance("It's raining cats and dogs.");
+        u.lang = 'en-US'; u.rate = 0.98;
+        window.speechSynthesis.speak(u);
+      }
+    };
+    audioBtnIdiom.onclick = () => {
+      if (window.speechSynthesis) {
+        const u = new SpeechSynthesisUtterance("Break a leg!");
+        u.lang = 'en-US'; u.rate = 0.98;
+        window.speechSynthesis.speak(u);
+      }
+    };
+
+    // 6. DICTIONARY POPUP
+    document.querySelectorAll('.clickWord').forEach(el => {
+      el.style.cursor = 'pointer';
+      el.style.color = 'var(--primary)';
+      el.onclick = () => {
+        const dictPopup = document.getElementById("dictPopup");
+        dictPopup.style.display = 'block';
+        dictPopup.innerHTML = `<b>${el.textContent}</b><br>Translation: ${el.dataset.fr}`;
+        setTimeout(() => dictPopup.style.display = 'none', 4000);
+      };
+    });
+
+    // 7. DAILY QUOTE
+    const quotes = [
+      "Learning never exhausts the mind.",
+      "The secret of getting ahead is getting started.",
+      "A new language is a new life."
+    ];
+    document.getElementById("quoteText").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+    // 8. MINI QUIZ & XP/PROGRESS BAR
+    const quizData = [
+      {q: "What is the synonym of 'Happy'?", opts:["Sad","Joyful","Angry"], ans:1},
+      {q: "Which is a fruit?", opts:["Carrot","Apple","Broccoli"], ans:1},
+      {q: "What color is the sky?", opts:["Blue","Green","Red"], ans:0},
+      {q: "How many legs does a spider have?", opts:["6","8","10"], ans:1},
+      {q: "Water freezes at 0 on which scale?", opts:["Fahrenheit","Celsius","Kelvin"], ans:1},
+      {q: "What is the opposite of 'Hot'?", opts:["Cold","Warm","Cool"], ans:0},
+      {q: "Which animal barks?", opts:["Cat","Dog","Bird"], ans:1},
+      {q: "How many letters in 'English'?", opts:["6","7","8"], ans:1},
+      {q: "What is the first month of the year?", opts:["January","March","December"], ans:0},
+      {q: "What color are bananas?", opts:["Red","Yellow","Purple"], ans:1}
+    ];
+    const quizQ = document.getElementById("quizQ");
+    const quizOpts = document.getElementById("quizOpts");
+    const quizResult = document.getElementById("quizResult");
+    const userLevel = document.getElementById("userLevel");
+    const quizCard = document.getElementById("quizCard");
+    const xpBar = document.getElementById("xpBar");
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let totalXP = parseInt(localStorage.getItem('totalXP')) || 0;
+
+    showQuestion(currentQuestionIndex);
+    updateXP(totalXP);
+    updateLevel(totalXP);
+
+    function showQuestion(index) {
+      clearQuizResult();
+      if(index < quizData.length){
+        quizQ.textContent = quizData[index].q;
+        quizOpts.innerHTML = "";
+        quizData[index].opts.forEach((option, i) => {
+          const btn = document.createElement('button');
+          btn.textContent = option;
+          btn.style.margin = '0.3rem';
+          btn.setAttribute('tabindex', '0');
+          btn.onclick = () => handleAnswer(i);
+          quizOpts.appendChild(btn);
+        });
+      }
+    }
+    function handleAnswer(selection) {
+      const correctIndex = quizData[currentQuestionIndex].ans;
+      if(selection === correctIndex) {
+        quizResult.textContent = "✅ Correct!";
+        score++;
+        totalXP += 2;
+      } else {
+        quizResult.textContent = "❌ Try again.";
+      }
+      saveTotalXP(totalXP);
+      updateXP(totalXP);
+      updateLevel(totalXP);
+      setTimeout(() => {
+        currentQuestionIndex++;
+        if(currentQuestionIndex < quizData.length) {
+          showQuestion(currentQuestionIndex);
+        } else {
+          quizComplete();
+        }
+      }, 1200);
+    }
+    function clearQuizResult() {
+      quizResult.textContent = "";
+    }
+    function saveTotalXP(xp) {
+      localStorage.setItem('totalXP', xp);
+      profileXP.textContent = `⭐ Total XP: ${xp}`;
+    }
+    function updateXP(points) {
+      let pct = Math.min(100, (points % 100));
+      xpBar.style.width = pct + '%';
+    }
+    function updateLevel(points) {
+      let levelMsg = "";
+      if(currentQuestionIndex
   section {
     min-height: 100vh;
     padding: 80px 20px;
