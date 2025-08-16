@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>KIDIQ | English Learning Channel</title>
-  <link rel="icon" href="AddText_08-16-02.06.30.jpg">
+  <link rel="icon" href="assets/favicon.jpg"> <!-- Ensure favicon is in a web-accessible folder -->
   <style>
     :root {
       --primary: #19a974;
@@ -21,15 +21,15 @@
       margin: 0; padding: 0; min-height:100vh;
       overflow-x: hidden;
       display: flex; flex-direction: column; align-items: center;
-      position:relative;
+      position: relative;
       transition: background 0.5s, color 0.5s;
     }
     .animated-bg {
-      position:fixed;
-      top:0; left:0; right:0; bottom:0;
-      width:100%; height:100%;
-      overflow:hidden;
-      z-index:-1;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: -1;
     }
     body.light .animated-bg {
       background: linear-gradient(to bottom, #87cefa, #f6fafc);
@@ -40,40 +40,41 @@
       animation: skyNight 25s linear infinite alternate;
     }
     .sun, .moon {
-      position:absolute;
-      border-radius:50%;
+      position: absolute;
+      border-radius: 50%;
       animation: floatAcross 40s linear infinite;
       top: 10%;
       left: -10%;
     }
     .sun {
-      width:80px; height:80px;
-      background:#ffdd55;
-      box-shadow:0 0 60px #ffd;
+      width: 80px; height: 80px;
+      background: #ffdd55;
+      box-shadow: 0 0 60px #ffd;
     }
     .moon {
-      width:60px; height:60px;
-      background:#fff;
-      box-shadow:0 0 30px #eef;
+      width: 60px; height: 60px;
+      background: #fff;
+      box-shadow: 0 0 30px #eef;
       top: 20%;
     }
     .cloud {
-      position:absolute; background:#fff;
-      border-radius:50%;
-      opacity:0.8;
+      position: absolute; background: #fff;
+      border-radius: 50%;
+      opacity: 0.8;
       animation: cloudMove 60s linear infinite;
     }
     .cloud::before, .cloud::after {
-      content:""; position:absolute; background:#fff; border-radius:50%;
+      content: "";
+      position: absolute; background: #fff; border-radius: 50%;
     }
-    .cloud::before { width:60px; height:60px; left:-30px; top:-20px; }
-    .cloud::after { width:70px; height:70px; left:40px; top:-10px; }
+    .cloud::before { width: 60px; height: 60px; left: -30px; top: -20px; }
+    .cloud::after { width: 70px; height: 70px; left: 40px; top: -10px; }
     .star {
-      position:absolute;
-      width:2px; height:2px;
-      background:#fff;
-      border-radius:50%;
-      opacity:0.7;
+      position: absolute;
+      width: 2px; height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.7;
       animation: twinkle 3s infinite alternate;
       display: none;
     }
@@ -82,62 +83,172 @@
     @keyframes skyDay { from{ filter:brightness(1); } to{ filter:brightness(1.1); } }
     @keyframes skyNight { from{ filter:brightness(0.7); } to{ filter:brightness(0.9); } }
     @keyframes twinkle { from{ opacity:0.3; } to{ opacity:1; } }
-    header { margin:2rem 0 1rem 0; display:flex; flex-direction:column; align-items:center; z-index:2; }
-    #logo { width:100px; height:100px; object-fit:contain; border-radius:20%; background:#fff; box-shadow:0 2px 16px rgba(0,0,0,0.07); }
-    h1 { margin:1rem 0 0.4rem 0; font-size:2rem; color:var(--primary); text-shadow:0 2px 4px #fff7; }
-    .tagline { color:#555; font-size:1.1rem; margin-bottom:0.5rem; text-align:center; }
-    .buttons { display:flex; gap:0.7rem; margin-bottom:1.3rem; flex-wrap:wrap; justify-content:center; }
-    .buttons a, #themeToggle, #editProfileBtn, #audioBtnPhrase, #audioBtnIdiom {
-      background:var(--primary); color:#fff; padding:0.7rem 1.3rem;
-      text-decoration:none; font-weight:600; border-radius:24px;
-      box-shadow:0 2px 8px #19a97433;
-      display: flex; align-items: center; gap: 0.5em;
-      transition: background 0.3s; border: none; cursor: pointer;
+    header {
+      margin: 2rem 0 1rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
     }
-    .buttons a:hover, #themeToggle:hover, #editProfileBtn:hover, #audioBtnPhrase:hover, #audioBtnIdiom:hover { background:var(--accent); color:#222; }
-    main { max-width:500px; width:95vw; margin:0 auto; z-index:2; }
+    #logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 20%;
+      background: #fff;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    h1 {
+      margin: 1rem 0 0.4rem 0;
+      font-size: 2rem;
+      color: var(--primary);
+      text-shadow: 0 2px 4px #fff7;
+    }
+    .tagline {
+      color: #555;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .buttons {
+      display: flex;
+      gap: 0.7rem;
+      margin-bottom: 1.3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .buttons a, #themeToggle, #editProfileBtn, #audioBtnPhrase, #audioBtnIdiom {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.7rem 1.3rem;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 24px;
+      box-shadow: 0 2px 8px #19a97433;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      transition: background 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .buttons a:hover, #themeToggle:hover, #editProfileBtn:hover, #audioBtnPhrase:hover, #audioBtnIdiom:hover {
+      background: var(--accent);
+      color: #222;
+    }
+    main {
+      max-width: 500px;
+      width: 95vw;
+      margin: 0 auto;
+      z-index: 2;
+    }
     .card {
       background: var(--card-bg);
       border-radius: 16px;
       box-shadow: 0 4px 24px #0002;
       padding: 1.6rem 1.2rem;
       margin-bottom: 1.7rem;
-      opacity: 0; transform: translateY(20px);
+      opacity: 0;
+      transform: translateY(20px);
       animation: fadeInUp 0.8s forwards;
       transition: background 0.4s;
     }
     .card h2 {
-      margin-top:0; color:var(--primary);
-      display:flex; align-items:center; gap:0.4em;
-      font-size:1.3rem;
+      margin-top: 0;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+      font-size: 1.3rem;
     }
-    .card p { font-size:1rem; margin:0.5rem 0; }
-    .card button { background:var(--primary); border:none; color:#fff; padding:0.5rem 1rem; border-radius:10px; cursor:pointer; }
-    .card button:hover { background:var(--accent); color:#222; }
-    .flashcard { width: 150px; height: 100px; perspective: 1000px; margin:1em auto; cursor:pointer; position: relative; }
+    .card p {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+    }
+    .card button {
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .card button:hover {
+      background: var(--accent);
+      color: #222;
+    }
+    .flashcard {
+      width: 150px;
+      height: 100px;
+      perspective: 1000px;
+      margin: 1em auto;
+      cursor: pointer;
+      position: relative;
+    }
     .flashcard div {
-      width: 100%; height: 100%; backface-visibility: hidden;
-      border-radius: 10px; display:flex; align-items:center; justify-content:center;
-      position:absolute; transition:transform 0.6s; font-weight: bold;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      transition: transform 0.6s;
+      font-weight: bold;
     }
-    .flashcard .front { background:var(--primary); color:#fff; }
-    .flashcard .back { background:var(--accent); color:#222; transform: rotateY(180deg);}
-    .flashcard.flip .front { transform: rotateY(180deg);}
-    .flashcard.flip .back { transform: rotateY(360deg);}
+    .flashcard .front {
+      background: var(--primary);
+      color: #fff;
+    }
+    .flashcard .back {
+      background: var(--accent);
+      color: #222;
+      transform: rotateY(180deg);
+    }
+    .flashcard.flip .front {
+      transform: rotateY(180deg);
+    }
+    .flashcard.flip .back {
+      transform: rotateY(360deg);
+    }
     #streakBox {
-      position:fixed;top:8px;right:8px; background:#fff; padding:6px 12px;
-      border-radius:8px; box-shadow:0 2px 6px #0002; font-weight:600; z-index:999;
-      text-align:center;
+      position: fixed; top: 8px; right: 8px; background: #fff;
+      padding: 6px 12px;
+      border-radius: 8px; box-shadow: 0 2px 6px #0002;
+      font-weight: 600; z-index: 999;
+      text-align: center;
       font-size: 1rem;
       min-width: 140px;
     }
-    body.dark #streakBox { background:#222; color:#ffb41e;}
-    #xpBarWrapper { background:#ddd; border-radius:10px; height:14px; margin-top:6px; }
-    #xpBar { background:var(--primary); height:100%; border-radius:10px; width:0%; transition:width 0.3s; }
+    body.dark #streakBox {
+      background: #222;
+      color: #ffb41e;
+    }
+    #xpBarWrapper {
+      background: #ddd;
+      border-radius: 10px;
+      height: 14px;
+      margin-top: 6px;
+    }
+    #xpBar {
+      background: var(--primary);
+      height: 100%;
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.3s;
+    }
     #dictPopup {
-      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
-      background:var(--card-bg); padding:1rem; border-radius:12px; box-shadow:0 4px 16px #0004;
-      display:none; max-width:320px; z-index:1000;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px #0004;
+      display: none;
+      max-width: 320px;
+      z-index: 1000;
     }
     #profileCard {
       text-align: center;
@@ -198,25 +309,6 @@
       background: var(--primary);
       color: #fff;
     }
-    #feedbackBtn {
-      background: var(--accent);
-      color: #222;
-      border-radius: 24px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      padding: 0.6rem 1.2rem;
-      box-shadow: 0 2px 8px #ffb41e99;
-      transition: background 0.3s;
-      display: block;
-      margin: 0 auto;
-      margin-top: 40px;
-      margin-bottom: 2rem;
-    }
-    #feedbackBtn:hover {
-      background: var(--primary);
-      color: #fff;
-    }
     #quizCard.disabled {
       opacity: 0.6;
       pointer-events: none;
@@ -227,6 +319,31 @@
       margin-top: 0.5rem;
     }
     @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+    /* Feedback Section Styles */
+    #feedbackForm input, #feedbackForm textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.4rem 0;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    #feedbackForm textarea { min-height:80px; resize:none; }
+    #feedbackForm button, #confirmRating {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #19a97433;
+      transition: background 0.3s;
+    }
+    #feedbackForm button:hover, #confirmRating:hover { background: var(--accent); color:#222; }
+    #starRating span { transition: color 0.2s; cursor: pointer; }
+    #starRating span.filled { color: gold; }
   </style>
 </head>
 <body class="light">
@@ -242,7 +359,7 @@
   </div>
   <button id="themeToggle" title="Switch theme" style="position:fixed;top:10px;left:14px;z-index:1001;" tabindex="0" aria-label="Switch theme">🌛</button>
   <header role="banner">
-    <img src="/storage/emulated/0/Pictures/AddText/AddText_08-16-02.06.30.jpg" alt="KIDIQ Logo" id="logo">
+    <img src="assets/logo.jpg" alt="KIDIQ Logo" id="logo">
     <h1>KIDIQ</h1>
     <div class="tagline">TIME TO LEARN ENGLISH</div>
     <div class="buttons">
@@ -255,8 +372,7 @@
     <div class="card" id="profileCard">
       <div id="avatarDisplay" title="Click to change avatar" tabindex="0" aria-pressed="false" role="button">🐱</div>
       <div id="profileName">Guest</div>
-      <button id="editProfileBtn" tabindex="0"
-      aria-label="Edit Profile">EDIT PROFILE </button>
+      <button id="editProfileBtn" tabindex="0" aria-label="Edit Profile">EDIT PROFILE </button>
       <div id="profileStats">
         <span id="profileStreak"></span><br>
         <span id="profileXP"></span>
@@ -303,17 +419,40 @@
       </div>
       <div id="userLevel" style="font-weight:600; font-size:1.1rem; color:var(--primary);"></div>
     </div>
-    <button id="feedbackBtn" tabindex="0" aria-label="Send Feedback">Send Feedback</button>
+    <div class="card" id="feedbackCard" aria-live="polite">
+      <h2>📬 Send Feedback</h2>
+      <form id="feedbackForm">
+        <input type="text" id="fbName" placeholder="Name (optional)" aria-label="Name" />
+        <input type="text" id="fbSurname" placeholder="Surname (optional)" aria-label="Surname" />
+        <input type="email" id="fbEmail" placeholder="Email (optional)" aria-label="Email" />
+        <textarea id="fbMessage" placeholder="Your message..." aria-label="Message" required></textarea>
+        <button type="submit">Send Feedback</button>
+      </form>
+      <div id="feedbackSuccess" style="display:none; margin-top:10px; font-weight:600; color:var(--primary);">
+        ✅ Thanks! Your feedback has been sent.
+      </div>
+      <h2 style="margin-top:2rem;">⭐ Rate the Bot</h2>
+      <div id="starRating" style="font-size:1.5rem; cursor:pointer;">
+        <span data-star="1">☆</span>
+        <span data-star="2">☆</span>
+        <span data-star="3">☆</span>
+        <span data-star="4">☆</span>
+        <span data-star="5">☆</span>
+      </div>
+      <button id="confirmRating" style="margin-top:0.5rem;">Confirm Rate</button>
+      <div id="ratingSuccess" style="display:none; margin-top:10px; font-weight:600; color:var(--primary);"></div>
+    </div>
   </main>
   <div id="streakBox" aria-live="polite"></div>
   <div id="dictPopup"></div>
+
   <script>
     // 1. THEME & BACKGROUND
     const body = document.body;
     const themeToggle = document.getElementById("themeToggle");
     const sun = document.getElementById("bgSun");
     const moon = document.getElementById("bgMoon");
-    const stars = document.querySelectorAll(".star");
+    const bgStars = document.querySelectorAll(".star");
 
     let theme = localStorage.getItem("theme") || "light";
     setTheme(theme);
@@ -328,14 +467,14 @@
         themeToggle.textContent = "🌞";
         sun.style.display = "none";
         moon.style.display = "block";
-        stars.forEach(s => s.style.display = "block");
+        bgStars.forEach(s => s.style.display = "block");
       } else {
         body.classList.add("light");
         body.classList.remove("dark");
         themeToggle.textContent = "🌛";
         sun.style.display = "block";
         moon.style.display = "none";
-        stars.forEach(s => s.style.display = "none");
+        bgStars.forEach(s => s.style.display = "none");
       }
       localStorage.setItem("theme", mode);
     }
@@ -359,15 +498,13 @@
       loadProfile();
     }
     loadProfile();
-editProfileBtn.onclick = () => {
-  // Show current values in prompts
-  let nameInput = prompt("Enter your name:", profileName.textContent);
-  let avatarInput = prompt("Choose an emoji for your avatar (e.g. 🐱 🌟 🍀):", avatarDisplay.textContent);
-  // If user cancels (returns null), keep existing value
-  let name = (nameInput === null) ? profileName.textContent : nameInput;
-  let avatar = (avatarInput === null) ? avatarDisplay.textContent : avatarInput;
-  saveProfile(name, avatar);
-};
+    editProfileBtn.onclick = () => {
+      let nameInput = prompt("ENTER YOUR NAME:", profileName.textContent);
+      let avatarInput = prompt("Choose an emoji for your avatar (e.g. 🐱 🌟 🍀):", avatarDisplay.textContent);
+      let name = (nameInput === null) ? profileName.textContent : nameInput;
+      let avatar = (avatarInput === null) ? avatarDisplay.textContent : avatarInput;
+      saveProfile(name, avatar);
+    };
 
     // 3. STREAK LOGIC
     const streakKey = "studyStreak", lastVisitKey = "lastVisit";
@@ -436,7 +573,7 @@ editProfileBtn.onclick = () => {
     ];
     document.getElementById("quoteText").textContent = quotes[Math.floor(Math.random() * quotes.length)];
 
-    // 8. MINI QUIZ & XP/PROGRESS BAR
+       // 8. MINI QUIZ & XP/PROGRESS BAR
     const quizData = [
       {q: "What is the synonym of 'Happy'?", opts:["Sad","Joyful","Angry"], ans:1},
       {q: "Which is a fruit?", opts:["Carrot","Apple","Broccoli"], ans:1},
@@ -485,6 +622,7 @@ editProfileBtn.onclick = () => {
         quizResult.textContent = "✅ Correct!";
         score++;
         totalXP += 2;
+        showXPNotification('+2 XP! Correct Answer 🎉');
       } else {
         quizResult.textContent = "❌ Try again.";
       }
@@ -500,6 +638,7 @@ editProfileBtn.onclick = () => {
         }
       }, 1200);
     }
+
     function clearQuizResult() {
       quizResult.textContent = "";
     }
@@ -541,6 +680,126 @@ editProfileBtn.onclick = () => {
       quizResult.textContent = finalizeMessage(score, quizData.length);
       quizCard.classList.add('disabled');
       updateLevel(totalXP);
+    }
+
+    // --- Feedback Form ---
+    const feedbackForm = document.getElementById('feedbackForm');
+    const feedbackSuccess = document.getElementById('feedbackSuccess');
+
+    feedbackForm.onsubmit = (e) => {
+      e.preventDefault();
+      const name = document.getElementById('fbName').value;
+      const surname = document.getElementById('fbSurname').value;
+      const email = document.getElementById('fbEmail').value;
+      const message = document.getElementById('fbMessage').value;
+
+      if(!message.trim()) return alert("Message cannot be empty!");
+
+      let feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+      feedbacks.push({name, surname, email, message, date: new Date().toISOString()});
+      localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+
+      feedbackForm.reset();
+      feedbackSuccess.style.display = "block";
+      setTimeout(() => feedbackSuccess.style.display = "none", 4000);
+    };
+
+    // --- Star Rating ---
+    const ratingStars = document.querySelectorAll('#starRating span');
+    let selectedRating = 0;
+
+    ratingStars.forEach(star => {
+      star.onclick = () => {
+        selectedRating = parseInt(star.dataset.star);
+        updateStars(selectedRating);
+      };
+      star.onmouseover = () => updateStars(parseInt(star.dataset.star));
+      star.onmouseout = () => updateStars(selectedRating);
+    });
+
+    function updateStars(rating) {
+      ratingStars.forEach(s => {
+        s.classList.remove('filled');
+        if(parseInt(s.dataset.star) <= rating) s.classList.add('filled');
+      });
+    }
+
+    // --- Confirm Rating ---
+    const confirmRatingBtn = document.getElementById('confirmRating');
+    const ratingSuccess = document.getElementById('ratingSuccess');
+
+    confirmRatingBtn.onclick = () => {
+      if(selectedRating === 0) return alert("Please select a rating first!");
+      localStorage.setItem('botRating', selectedRating);
+      ratingSuccess.textContent = `Thanks! You rated the bot ${selectedRating}/5 ⭐`;
+      ratingSuccess.style.display = "block";
+      setTimeout(() => ratingSuccess.style.display = "none", 4000);
+    };
+
+    // --- Sparkle Effect ---
+    function addSparkle(notif) {
+      const sparkleCount = 10;
+      for (let i = 0; i < sparkleCount; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.style.position = 'absolute';
+        sparkle.style.width = sparkle.style.height = (Math.random() * 6 + 4) + 'px';
+        sparkle.style.background = '#fff';
+        sparkle.style.borderRadius = '50%';
+        sparkle.style.left = Math.random() * notif.offsetWidth + 'px';
+        sparkle.style.top = Math.random() * notif.offsetHeight + 'px';
+        sparkle.style.opacity = Math.random();
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.transform = `scale(${Math.random()})`;
+        sparkle.style.filter = 'blur(1px)';
+        notif.appendChild(sparkle);
+
+        sparkle.animate([
+          { transform: 'translateY(0) scale(0.5)', opacity: 1 },
+          { transform: `translateY(-${Math.random()*20 + 10}px) scale(1)`, opacity: 0 }
+        ], { duration: 800 + Math.random()*400, iterations: 1 });
+
+        setTimeout(() => {
+          if (notif.contains(sparkle)) notif.removeChild(sparkle);
+        }, 1200);
+      }
+    }
+
+    // --- XP Notification with Confetti + Sparkle ---
+    function showXPNotification(message) {
+      showConfetti();
+
+      const notif = document.createElement('div');
+      notif.textContent = message;
+      notif.style.position = 'fixed';
+      notif.style.bottom = '120px';
+      notif.style.left = '50%';
+      notif.style.transform = 'translateX(-50%)';
+      notif.style.background = 'var(--primary)';
+      notif.style.color = '#fff';
+      notif.style.padding = '0.5rem 1rem';
+      notif.style.borderRadius = '24px';
+      notif.style.fontWeight = '600';
+      notif.style.zIndex = 9999;
+      notif.style.opacity = 1;
+      notif.style.transition = 'all 2s ease-out';
+      notif.style.textAlign = 'center';
+      notif.style.position = 'relative';
+      document.body.appendChild(notif);
+
+      addSparkle(notif);
+
+      setTimeout(() => {
+        notif.style.bottom = '180px';
+        notif.style.opacity = 0;
+      }, 50);
+
+      setTimeout(() => {
+        document.body.removeChild(notif);
+      }, 2050);
+    }
+
+    function showConfetti() {
+      console.log('Confetti!');
     }
   </script>
 </body>
