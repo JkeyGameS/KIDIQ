@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Motivation Boost</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f8ff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #quote {
+      font-size: 1.5em;
+      margin: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>✨ Your Daily Motivation ✨</h1>
+  <p id="quote">Click the button for a boost!</p>
+  <button onclick="generateQuote()">Inspire Me</button>
+
+  <script>
+    const quotes = [
+      "Push through the pain. Greatness awaits.",
+      "Your story is just beginning.",
+      "Every setback is a setup for a comeback.",
+      "You were born to stand out, not blend in.",
+      "Even the darkest night will end and the sun will rise.",
+      "Courage doesn’t always roar. Sometimes it’s the quiet voice saying, ‘I’ll try again tomorrow.’"
+    ];
+    function generateQuote() {
+      const random = Math.floor(Math.random() * quotes.length);
+      document.getElementById("quote").innerText = quotes[random];
+    }
+  </script>
+</body>
+</html>
