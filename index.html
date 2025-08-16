@@ -1,273 +1,492 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KIDIQ | English Learning</title>
-<style>
-  :root {
-    --primary: #19a974;
-    --accent: #ffb41e;
-    --night-bg: #0a0a30;
-    --day-bg: #87ceeb;
-  }
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    transition: background 1s;
-    background: var(--day-bg);
-    color: #333;
-  }
-  .container {
-    max-width: 700px;
-    margin: auto;
-    padding: 1rem;
-  }
-  h1,h2,h3 { text-align: center; }
-  .card {
-    background: rgba(255,255,255,0.9);
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-  button {
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border:none;
-    border-radius:8px;
-    background: var(--primary);
-    color:white;
-    margin:0.3rem;
-    font-weight:600;
-  }
-  #xpBarContainer{
-    background:#ddd;
-    border-radius:12px;
-    overflow:hidden;
-    height:20px;
-    margin:0.5rem 0;
-  }
-  #xpBar{
-    height:100%;
-    width:0;
-    background: var(--accent);
-    transition: width 0.5s;
-  }
-  #starRating span{
-    font-size:1.5rem;
-    cursor:pointer;
-    color: #ccc;
-    margin:0 0.1rem;
-  }
-  #starRating span.filled { color: gold; }
-  .feedback-success, .rating-success { display:none; color: green; font-weight:bold; margin-top:0.5rem; text-align:center; }
-  .disabled { opacity:0.5; pointer-events:none; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KIDIQ | English Learning Channel</title>
+  <link rel="icon" href="assets/favicon.jpg">
+  <style>
+    :root{
+      --primary:#19a974;--accent:#ffb41e;--bg-light:#f6fafc;--bg-dark:#0a102a;--text:#112;--card-bg:#fff;
+    }
+    *{box-sizing:border-box}
+    body{font-family:'Segoe UI',Arial,sans-serif;margin:0;min-height:100vh;background:var(--bg-light);color:var(--text);overflow-x:hidden;transition:background .5s,color .5s}
+    header{display:flex;flex-direction:column;align-items:center;padding:24px 12px}
+    .app{max-width:980px;margin:0 auto;padding:0 14px 120px}/* Animated sky */
+.animated-bg{position:fixed;inset:0;z-index:-1;overflow:hidden}
+body.light .animated-bg{background:linear-gradient(to bottom,#87cefa,#f6fafc);animation:skyDay 18s linear infinite alternate}
+body.dark  .animated-bg{background:linear-gradient(to bottom,#0a102a,#233560);animation:skyNight 22s linear infinite alternate}
+.sun,.moon{position:absolute;border-radius:50%;top:12%;left:-10%;animation:floatAcross 40s linear infinite}
+.sun{width:84px;height:84px;background:#ffdd55;box-shadow:0 0 60px #ffd}
+.moon{width:64px;height:64px;background:#fff;box-shadow:0 0 30px #eef;top:22%;display:none}
+.cloud{position:absolute;background:#fff;border-radius:50%;opacity:.9;animation:cloudMove 60s linear infinite}
+.cloud::before,.cloud::after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:60px;height:60px;left:-30px;top:-20px}
+.cloud::after{width:70px;height:70px;left:40px;top:-10px}
+.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;opacity:.7;animation:twinkle 3s infinite alternate;display:none}
+@keyframes floatAcross{from{left:-10%}to{left:110%}}
+@keyframes cloudMove{from{left:-20%}to{left:120%}}
+@keyframes skyDay{from{filter:brightness(1)}to{filter:brightness(1.08)}}
+@keyframes skyNight{from{filter:brightness(.7)}to{filter:brightness(.9)}}
+@keyframes twinkle{from{opacity:.25}to{opacity:1}}
+
+/* UI basics */
+#themeToggle{position:fixed;top:10px;left:12px;z-index:10;border:none;border-radius:999px;padding:.6rem .8rem;background:var(--primary);color:#fff;cursor:pointer;box-shadow:0 2px 8px #19a97433}
+#themeToggle:hover{background:var(--accent);color:#222}
+#logo{width:92px;height:92px;object-fit:cover;border-radius:20%;background:#fff;box-shadow:0 2px 16px #0001}
+h1{margin:10px 0 4px;color:var(--primary)}
+.tagline{color:#555;text-align:center;margin-bottom:10px}
+.btn{background:var(--primary);color:#fff;border:none;border-radius:24px;padding:.6rem 1rem;font-weight:600;cursor:pointer;box-shadow:0 2px 8px #19a97433}
+.btn:hover{background:var(--accent);color:#222}
+
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.buttons a,.buttons button{all:unset}
+.buttons a{display:inline-flex;align-items:center;gap:.5rem}
+.buttons a{background:var(--primary);color:#fff;padding:.6rem 1rem;border-radius:24px;box-shadow:0 2px 8px #19a97433;cursor:pointer}
+.buttons a:hover{background:var(--accent);color:#222}
+
+main{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--card-bg);border-radius:16px;box-shadow:0 4px 24px #0002;padding:16px;opacity:0;transform:translateY(16px);animation:fadeInUp .8s forwards}
+.card h2{margin:0 0 8px;color:var(--primary)}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}
+
+/* Profile & progress */
+#profileCard{grid-column:1/-1;text-align:center}
+#avatarDisplay{font-size:2.2rem;cursor:pointer}
+#badgeDisplay{margin-top:6px;color:var(--primary);font-weight:600}
+#xpBarWrapper{background:#e7e7e7;border-radius:10px;height:14px}
+#xpBar{background:var(--primary);height:100%;border-radius:10px;width:0%;transition:width .35s}
+#streakBox{position:fixed;top:10px;right:10px;background:#fff;padding:6px 12px;border-radius:8px;box-shadow:0 2px 6px #0002;font-weight:600;z-index:10;min-width:140px;text-align:center}
+body.dark #streakBox{background:#222;color:#ffb41e}
+
+/* Flashcard */
+.flashcard{width:180px;height:120px;perspective:1000px;margin:10px auto;cursor:pointer;position:relative}
+.flashcard div{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;backface-visibility:hidden;transition:transform .6s}
+.flashcard .front{background:var(--primary);color:#fff}
+.flashcard .back{background:var(--accent);color:#222;transform:rotateY(180deg)}
+.flashcard.flip .front{transform:rotateY(180deg)}
+.flashcard.flip .back{transform:rotateY(360deg)}
+
+/* Feedback */
+#feedbackForm input,#feedbackForm textarea{width:100%;padding:.6rem;margin:.35rem 0;border-radius:12px;border:1px solid #ccc;font-size:1rem}
+#feedbackForm textarea{min-height:82px;resize:vertical}
+#starRating span{font-size:1.6rem;cursor:pointer;transition:color .15s}
+#starRating span.filled{color:gold}
+
+/* Toast/Reward */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:120px;background:var(--primary);color:#fff;padding:.55rem 1rem;border-radius:24px;font-weight:700;z-index:9999;box-shadow:0 6px 18px #0003}
+
+/* Dark theme adjustments */
+body.dark{background:var(--bg-dark);color:#e8ecf3}
+body.dark .card{background:#101b3a}
+body.dark .buttons a{box-shadow:0 2px 8px rgba(255,255,255,.08)}
+
+  </style>
 </head>
-<body>
-<div class="container">
+<body class="light">
+  <!-- Animated background layer -->
+  <div class="animated-bg" aria-hidden="true">
+    <div class="sun" id="bgSun"></div>
+    <div class="moon" id="bgMoon"></div>
+    <!-- clouds -->
+    <div class="cloud" style="top:20%;left:10%;width:110px;height:56px"></div>
+    <div class="cloud" style="top:45%;left:60%;width:140px;height:70px;animation-duration:75s"></div>
+    <!-- stars -->
+    <div class="star" style="top:15%;left:30%"></div>
+    <div class="star" style="top:26%;left:72%"></div>
+    <div class="star" style="top:50%;left:50%"></div>
+    <div class="star" style="top:68%;left:20%"></div>
+  </div><button id="themeToggle" title="Switch theme" aria-label="Switch theme">🌛</button>
 
-  <h1>👋 Welcome to KIDIQ</h1>
+  <header role="banner">
+    <img id="logo" src="assets/logo.jpg" alt="KIDIQ Logo"/>
+    <h1>KIDIQ</h1>
+    <div class="tagline">TIME TO LEARN ENGLISH</div>
+    <div class="row buttons" aria-label="Primary links">
+      <a href="https://wa.me/YOURWHATSAPPGROUPLINK" target="_blank" rel="noopener" aria-label="WhatsApp Channel" >CHANNEL</a>
+      <a href="https://wa.me/?text=Join%20me%20for%20daily%20English%20lessons%20at%20KIDIQ%3A%20YOURSITEURL" target="_blank" rel="noopener" aria-label="Share channel" >SHARE</a>
+      <a href="#feedbackCard" aria-label="Message">MESSAGE</a>
+    </div>
+  </header>  <div id="streakBox" aria-live="polite">🔥 Streak: 0 day</div>  <div class="app">
+    <main>
+      <!-- Profile & progress -->
+      <section class="card" id="profileCard">
+        <div id="avatarDisplay" title="Click to change avatar" role="button" tabindex="0" aria-pressed="false">🐱</div>
+        <div id="profileName" style="font-weight:700;font-size:1.2rem;margin-top:6px">Guest</div>
+        <button class="btn" id="editProfileBtn" aria-label="Edit Profile">EDIT PROFILE</button>
+        <div id="profileStats" style="margin-top:6px">
+          <span id="profileStreak">🔥 Current Streak: 0 day(s)</span><br>
+          <span id="profileXP">⭐ Total XP: 0</span>
+          <div id="badgeDisplay">🏅 Badges: None</div>
+        </div>
+        <div style="margin-top:14px">
+          <div id="xpBarWrapper" aria-label="Experience progress bar"><div id="xpBar"></div></div>
+          <div id="userLevel" style="margin-top:8px;font-weight:700;color:var(--primary)"></div>
+        </div>
+      </section><!-- Phrase of the day -->
+  <section class="card">
+    <h2>📖 Phrase of the Day</h2>
+    <p>It’s <span class="clickWord" data-fr="pleut beaucoup" style="cursor:pointer;color:var(--primary)">raining</span> cats and dogs.</p>
+    <div class="row">
+      <button class="btn" id="audioBtnPhrase" aria-label="Listen Phrase">🔊 Listen</button>
+      <button class="btn" id="ttsSlowPhrase" aria-label="Listen slow">🐢 Slow</button>
+    </div>
+  </section>
 
-  <!-- Profile & Level -->
-  <div class="card">
-    <h2>Your Profile</h2>
-    <p id="userName">Name: Guest</p>
-    <p id="userLevel">Total XP: 0</p>
-    <div id="xpBarContainer"><div id="xpBar"></div></div>
-  </div>
-
-  <!-- Daily Quote -->
-  <div class="card" id="dailyQuoteCard">
-    <h2>💡 Thought for Today</h2>
-    <p id="dailyQuote"></p>
-  </div>
-
-  <!-- Mini Quiz -->
-  <div class="card" id="quizCard">
-    <h2>📝 Mini Quiz</h2>
-    <p id="quizQ"></p>
-    <div id="quizOpts"></div>
-    <p id="quizResult" style="font-weight:bold;"></p>
-  </div>
+  <!-- Idiom -->
+  <section class="card">
+    <h2>✨ Idiom</h2>
+    <p>Break a <span class="clickWord" data-fr="jambe" style="cursor:pointer;color:var(--primary)">leg</span>!</p>
+    <div class="row">
+      <button class="btn" id="audioBtnIdiom" aria-label="Listen Idiom">🔊 Listen</button>
+      <button class="btn" id="ttsSlowIdiom" aria-label="Listen slow">🐢 Slow</button>
+    </div>
+  </section>
 
   <!-- Flashcard -->
-  <div class="card" id="flashcardCard">
-    <h2>📚 Flashcard</h2>
-    <p id="flashQuestion"></p>
-    <p id="flashAnswer" style="font-weight:bold;"></p>
-    <button id="nextFlashcard">Next Flashcard</button>
-  </div>
-
-  <!-- Feedback Form -->
-  <div class="card">
-    <h2>✉️ Send Feedback</h2>
-    <form id="feedbackForm">
-      <input type="text" id="fbName" placeholder="Name" required><br><br>
-      <input type="text" id="fbSurname" placeholder="Surname" required><br><br>
-      <input type="email" id="fbEmail" placeholder="Email"><br><br>
-      <textarea id="fbMessage" placeholder="Message" required></textarea><br><br>
-      <button type="submit">Send Feedback</button>
-    </form>
-    <p class="feedback-success" id="feedbackSuccess">Thanks! Your feedback has been recorded ✅</p>
-  </div>
-
-  <!-- Rating -->
-  <div class="card">
-    <h2>⭐ Rate Our Bot</h2>
-    <div id="starRating">
-      <span data-star="1">★</span>
-      <span data-star="2">★</span>
-      <span data-star="3">★</span>
-      <span data-star="4">★</span>
-      <span data-star="5">★</span>
+  <section class="card">
+    <h2>Flashcard</h2>
+    <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false" aria-label="Flashcard: click or press enter to flip">
+      <div class="front">🐱 Cat</div>
+      <div class="back">Chat (FR)</div>
     </div>
-    <button id="confirmRating">Confirm Rating</button>
-    <p class="rating-success" id="ratingSuccess"></p>
-  </div>
+  </section>
 
-</div>
+  <!-- Word of the Day -->
+  <section class="card">
+    <h2>🌱 Word of the Day</h2>
+    <div id="wordOfDay" aria-live="polite">Loading…</div>
+    <div class="row" style="margin-top:6px">
+      <button class="btn" id="ttsWotd" aria-label="Listen Word of the Day">🔊 Listen</button>
+    </div>
+  </section>
 
-<script>
-  // 1. DAY/NIGHT BACKGROUND
-  function updateBackground(){
-    const hour = new Date().getHours();
-    document.body.style.background = (hour>=6 && hour<19) ? "var(--day-bg)" : "var(--night-bg)";
-  }
-  updateBackground();
-  setInterval(updateBackground, 60000);
+  <!-- Motivation -->
+  <section class="card" id="quoteCard" aria-live="polite">
+    <h2>Motivation</h2>
+    <div id="quoteText"></div>
+  </section>
 
-  // 2. DAILY QUOTE
-  const quotes = ["The best way to learn is by doing.","Mistakes are proof you're trying.","Stay curious!","Knowledge is power.","Practice makes perfect."];
-  document.getElementById('dailyQuote').textContent = quotes[Math.floor(Math.random()*quotes.length)];
+  <!-- Quiz -->
+  <section class="card" id="quizCard" aria-live="polite">
+    <h2>Mini Quiz</h2>
+    <div id="quizQ"></div>
+    <div id="quizOpts" class="row" style="justify-content:flex-start"></div>
+    <div id="quizResult" style="margin-top:.5rem;font-weight:700" aria-live="assertive"></div>
+  </section>
 
-  // 3. MINI QUIZ
-  const quizData = [
-    {q: "What is the synonym of 'Happy'?", opts:["Sad","Joyful","Angry"], ans:1},
-    {q: "Which is a fruit?", opts:["Carrot","Apple","Broccoli"], ans:1},
-    {q: "What color is the sky?", opts:["Blue","Green","Red"], ans:0},
-    {q: "How many legs does a spider have?", opts:["6","8","10"], ans:1},
-    {q: "Water freezes at 0 on which scale?", opts:["Fahrenheit","Celsius","Kelvin"], ans:1}
-  ];
-  let currentQuestionIndex=0, score=0, totalXP=parseInt(localStorage.getItem('totalXP'))||0;
-  function showQuestion(index){
-    const quizQ=document.getElementById("quizQ");
-    const quizOpts=document.getElementById("quizOpts");
-    const quizResult=document.getElementById("quizResult");
-    quizResult.textContent="";
-    if(index<quizData.length){
-      quizQ.textContent=quizData[index].q;
-      quizOpts.innerHTML="";
-      quizData[index].opts.forEach((o,i)=>{
-        const btn=document.createElement('button');
-        btn.textContent=o;
-        btn.onclick=()=>handleAnswer(i);
-        quizOpts.appendChild(btn);
+  <!-- Feedback & Rating -->
+  <section class="card" id="feedbackCard" aria-live="polite">
+    <h2>📬 Send Feedback</h2>
+    <form id="feedbackForm">
+      <input type="text" id="fbName" placeholder="Name (optional)" aria-label="Name"/>
+      <input type="text" id="fbSurname" placeholder="Surname (optional)" aria-label="Surname"/>
+      <input type="email" id="fbEmail" placeholder="Email (optional)" aria-label="Email"/>
+      <textarea id="fbMessage" placeholder="Your message..." aria-label="Message" required></textarea>
+      <button class="btn" type="submit">Send Feedback</button>
+    </form>
+    <div id="feedbackSuccess" style="display:none;margin-top:10px;font-weight:700;color:var(--primary)">✅ Thanks! Your feedback has been sent.</div>
+
+    <h2 style="margin-top:18px">⭐ Rate the Bot</h2>
+    <div id="starRating" style="font-size:1.5rem;cursor:pointer">
+      <span data-star="1">☆</span>
+      <span data-star="2">☆</span>
+      <span data-star="3">☆</span>
+      <span data-star="4">☆</span>
+      <span data-star="5">☆</span>
+    </div>
+    <button class="btn" id="confirmRating" style="margin-top:.5rem">Confirm Rate</button>
+    <div id="ratingSuccess" style="display:none;margin-top:10px;font-weight:700;color:var(--primary)"></div>
+  </section>
+</main>
+
+  </div>  <!-- Dictionary popup -->  <div id="dictPopup" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card-bg);padding:1rem;border-radius:12px;box-shadow:0 4px 16px #0004;display:none;max-width:320px;z-index:1000"></div>  <script>
+    // =============== THEME ===============
+    const body = document.body;
+    const themeToggle = document.getElementById('themeToggle');
+    const sun = document.getElementById('bgSun');
+    const moon = document.getElementById('bgMoon');
+    const bgStars = document.querySelectorAll('.star');
+
+    let theme = localStorage.getItem('theme') || 'light';
+    applyTheme(theme);
+
+    themeToggle.addEventListener('click',()=>{
+      theme = (theme==='light')?'dark':'light';
+      applyTheme(theme);
+    });
+
+    function applyTheme(mode){
+      if(mode==='dark'){
+        body.classList.add('dark'); body.classList.remove('light');
+        themeToggle.textContent = '🌞'; sun.style.display='none'; moon.style.display='block';
+        bgStars.forEach(s=>s.style.display='block');
+      }else{
+        body.classList.add('light'); body.classList.remove('dark');
+        themeToggle.textContent = '🌛'; sun.style.display='block'; moon.style.display='none';
+        bgStars.forEach(s=>s.style.display='none');
+      }
+      localStorage.setItem('theme',mode);
+    }
+
+    // =============== PROFILE ===============
+    const avatarDisplay=document.getElementById('avatarDisplay');
+    const profileName=document.getElementById('profileName');
+    const editProfileBtn=document.getElementById('editProfileBtn');
+    const profileStreak=document.getElementById('profileStreak');
+    const profileXP=document.getElementById('profileXP');
+
+    function loadProfile(){
+      profileName.textContent=localStorage.getItem('profileName')||'Guest';
+      avatarDisplay.textContent=localStorage.getItem('avatar')||'🐱';
+      profileStreak.textContent=`🔥 Current Streak: ${localStorage.getItem('studyStreak')||0} day(s)`;
+      profileXP.textContent=`⭐ Total XP: ${parseInt(localStorage.getItem('totalXP'))||0}`;
+    }
+    function saveProfile(name,avatar){
+      localStorage.setItem('profileName',name);
+      localStorage.setItem('avatar',avatar);
+      loadProfile();
+    }
+    loadProfile();
+
+    editProfileBtn.addEventListener('click',()=>{
+      const nameInput=prompt('ENTER YOUR NAME:',profileName.textContent);
+      const avatarInput=prompt('Choose an emoji for your avatar (e.g. 🐱 🌟 🍀):',avatarDisplay.textContent);
+      saveProfile((nameInput??profileName.textContent)||(profileName.textContent),(avatarInput??avatarDisplay.textContent)||(avatarDisplay.textContent));
+    });
+
+    // =============== STREAK ===============
+    const streakKey='studyStreak', lastVisitKey='lastVisit';
+    const streakBox=document.getElementById('streakBox');
+    let streak=parseInt(localStorage.getItem(streakKey))||0;
+    const lastVisit=localStorage.getItem(lastVisitKey);
+    const todayStr=new Date().toDateString();
+    if(lastVisit!==todayStr){
+      const yday = new Date(new Date(todayStr).getTime()-86400000).toDateString();
+      streak = (lastVisit===yday)? streak+1 : 1;
+      localStorage.setItem(streakKey,streak);
+      localStorage.setItem(lastVisitKey,todayStr);
+    }
+    streakBox.textContent=`🔥 Streak: ${streak} day${streak>1?'s':''}`;
+    profileStreak.textContent=`🔥 Current Streak: ${streak} day(s)`;
+
+    // =============== FLASHCARD ===============
+    const flashcard=document.getElementById('flashcard');
+    flashcard.addEventListener('click',toggleFlip);
+    flashcard.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleFlip();}});
+    function toggleFlip(){
+      flashcard.classList.toggle('flip');
+      const pressed=flashcard.getAttribute('aria-pressed')==='true';
+      flashcard.setAttribute('aria-pressed',(!pressed).toString());
+    }
+
+    // =============== TTS HELPERS ===============
+    function speak(text,{rate=1,pitch=1,lang='en-US'}={}){
+      if(!('speechSynthesis' in window)) return alert('Speech Synthesis not supported on this browser.');
+      // Stop anything ongoing
+      window.speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(text);
+      u.lang=lang; u.rate=rate; u.pitch=pitch;
+      // Ensure voices are loaded on some browsers
+      const v = window.speechSynthesis.getVoices();
+      if(!v || !v.length){
+        window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.speak(u);
+      } else {
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    // Phrase & Idiom TTS
+    document.getElementById('audioBtnPhrase').addEventListener('click',()=>speak("It's raining cats and dogs.",{rate:.98}));
+    document.getElementById('ttsSlowPhrase').addEventListener('click',()=>speak("It's raining cats and dogs.",{rate:.75}));
+    document.getElementById('audioBtnIdiom').addEventListener('click',()=>speak('Break a leg!',{rate:.98}));
+    document.getElementById('ttsSlowIdiom').addEventListener('click',()=>speak('Break a leg!',{rate:.75}));
+
+    // =============== DICTIONARY POPUP ===============
+    document.querySelectorAll('.clickWord').forEach(el=>{
+      el.addEventListener('click',()=>{
+        const dictPopup=document.getElementById('dictPopup');
+        dictPopup.style.display='block';
+        dictPopup.innerHTML=`<b>${el.textContent}</b><br>Translation: ${el.dataset.fr}`;
+        setTimeout(()=>dictPopup.style.display='none',3800);
       });
+    });
+
+    // =============== QUOTE ===============
+    const quotes=[
+      'Learning never exhausts the mind.',
+      'The secret of getting ahead is getting started.',
+      'A new language is a new life.',
+      'Small steps every day create big results.'
+    ];
+    document.getElementById('quoteText').textContent=quotes[Math.floor(Math.random()*quotes.length)];
+
+    // =============== QUIZ ===============
+    const quizData=[
+      {q:"What is the synonym of 'Happy'?",opts:['Sad','Joyful','Angry'],ans:1},
+      {q:'Which is a fruit?',opts:['Carrot','Apple','Broccoli'],ans:1},
+      {q:'What color is the sky?',opts:['Blue','Green','Red'],ans:0},
+      {q:'How many legs does a spider have?',opts:['6','8','10'],ans:1},
+      {q:'Water freezes at 0 on which scale?',opts:['Fahrenheit','Celsius','Kelvin'],ans:1},
+      {q:"What is the opposite of 'Hot'?",opts:['Cold','Warm','Cool'],ans:0},
+      {q:'Which animal barks?',opts:['Cat','Dog','Bird'],ans:1},
+      {q:"How many letters in 'English'?",opts:['6','7','8'],ans:1},
+      {q:'What is the first month of the year?',opts:['January','March','December'],ans:0},
+      {q:'What color are bananas?',opts:['Red','Yellow','Purple'],ans:1}
+    ];
+    const quizQ=document.getElementById('quizQ');
+    const quizOpts=document.getElementById('quizOpts');
+    const quizResult=document.getElementById('quizResult');
+    const userLevel=document.getElementById('userLevel');
+    const quizCard=document.getElementById('quizCard');
+    const xpBar=document.getElementById('xpBar');
+
+    let currentQuestionIndex=0; let score=0;
+    let totalXP=parseInt(localStorage.getItem('totalXP'))||0; // persisted XP
+
+    initQuiz();
+    updateXP(totalXP); updateLevel(totalXP);
+
+    function initQuiz(){
+      showQuestion(currentQuestionIndex);
     }
-  }
-  function handleAnswer(selection){
-    const correctIndex=quizData[currentQuestionIndex].ans;
-    const quizResult=document.getElementById("quizResult");
-    if(selection===correctIndex){
-      quizResult.textContent="✅ Correct!";
-      score++;
-      totalXP+=2;
-      showXPNotification('+2 XP! Correct Answer 🎉');
-    } else quizResult.textContent="❌ Try again.";
-    localStorage.setItem('totalXP', totalXP);
-    updateXP(totalXP);
-    updateLevel(totalXP);
-    setTimeout(()=>{
-      currentQuestionIndex++;
-      if(currentQuestionIndex<quizData.length) showQuestion(currentQuestionIndex);
-      else quizComplete();
-    },1200);
-  }
-  function quizComplete(){
-    const quizQ=document.getElementById("quizQ");
-    const quizOpts=document.getElementById("quizOpts");
-    const quizResult=document.getElementById("quizResult");
-    quizQ.textContent="🎉 Quiz Completed For Today!";
-    quizOpts.innerHTML="";
-    quizResult.textContent=`Your final score: ${score}/${quizData.length}`;
-  }
-  function updateXP(points){document.getElementById("xpBar").style.width=Math.min(100,points%100)+'%';}
-  function updateLevel(points){document.getElementById("userLevel").textContent=`Total XP: ${points}`;}
-  showQuestion(currentQuestionIndex);
-  updateXP(totalXP);
-  updateLevel(totalXP);
+    function showQuestion(index){
+      clearQuizResult();
+      if(index<quizData.length){
+        quizQ.textContent=quizData[index].q;
+        quizOpts.innerHTML='';
+        quizData[index].opts.forEach((option,i)=>{
+          const b=document.createElement('button');
+          b.className='btn'; b.textContent=option; b.style.margin='.25rem';
+          b.addEventListener('click',()=>handleAnswer(i));
+          quizOpts.appendChild(b);
+        });
+      }
+    }
+    function handleAnswer(selection){
+      const correctIndex=quizData[currentQuestionIndex].ans;
+      if(selection===correctIndex){
+        quizResult.textContent='✅ Correct!';
+        score++; totalXP+=2; showXPNotification('+2 XP! Correct Answer 🎉');
+      }else{quizResult.textContent='❌ Try again.'}
+      saveTotalXP(totalXP); updateXP(totalXP); updateLevel(totalXP);
+      setTimeout(()=>{
+        currentQuestionIndex++;
+        if(currentQuestionIndex<quizData.length){showQuestion(currentQuestionIndex)}
+        else{quizComplete()}
+      },900);
+    }
+    function clearQuizResult(){quizResult.textContent=''}
+    function saveTotalXP(xp){localStorage.setItem('totalXP',xp); profileXP.textContent=`⭐ Total XP: ${xp}`}
+    function updateXP(points){
+      const pct=Math.min(100,(points%100)); xpBar.style.width=pct+'%';
+    }
+    function levelLabel(points){
+      if(points>=300) return 'Master';
+      if(points>=180) return 'Advanced';
+      if(points>=80)  return 'Intermediate';
+      return 'Beginner';
+    }
+    function updateLevel(points){
+      if(currentQuestionIndex>=quizData.length){
+        userLevel.textContent = finalizeMessage(score,quizData.length);
+        quizCard.classList.add('disabled');
+      }else{
+        userLevel.textContent = `Level: ${levelLabel(points)} • Score: ${score}/${currentQuestionIndex}`;
+      }
+    }
+    function finalizeMessage(scored,total){
+      if(scored===total) return `🎉 Wonderful, perfect score ${scored}/${total}! See you tomorrow 😁`;
+      if(scored>=8) return `🌟 Great job! Score ${scored}/${total}. Keep it up!`;
+      if(scored>=6) return `👍 Good effort! ${scored}/${total}. You can do even better!`;
+      if(scored>=4) return `😊 Keep trying! ${scored}/${total}. Practice makes perfect!`;
+      return `😕 Your score is ${scored}/${total}. Don't give up!`;
+    }
+    function quizComplete(){
+      quizOpts.innerHTML='';
+      quizQ.textContent='🎉 Quiz Completed For Today. Come back tomorrow for more!';
+      quizResult.textContent=finalizeMessage(score,quizData.length);
+      quizCard.classList.add('disabled');
+      updateLevel(totalXP);
+    }
 
-  // 4. FLASHCARDS
-  const flashcards=[{q:"Hello","a":"Bonjour"},{q:"Thank you","a":"Merci"},{q:"Goodbye","a":"Au revoir"}];
-  let flashIndex=0;
-  const flashQ=document.getElementById("flashQuestion");
-  const flashA=document.getElementById("flashAnswer");
-  function showFlashcard(i){ flashQ.textContent=flashcards[i].q; flashA.textContent=flashcards[i].a; }
-  document.getElementById("nextFlashcard").onclick=()=>{
-    flashIndex=(flashIndex+1)%flashcards.length; showFlashcard(flashIndex); totalXP++; updateXP(totalXP); updateLevel(totalXP); showXPNotification('+1 XP! Flashcard Viewed ✨'); localStorage.setItem('totalXP', totalXP);
-  }
-  showFlashcard(flashIndex);
+    // =============== WORD OF THE DAY (persist per day) ===============
+    const WOTD_KEY='wotd'; const WOTD_DATE_KEY='wotd_date';
+    const words=[
+      {en:'apple', fr:'pomme'},{en:'book', fr:'livre'},{en:'friend', fr:'ami'},{en:'sun', fr:'soleil'},{en:'love', fr:'amour'},
+      {en:'learn', fr:'apprendre'},{en:'speak', fr:'parler'},{en:'listen', fr:'écouter'},{en:'write', fr:'écrire'}
+    ];
+    function pickWordOfDay(){
+      const today = new Date().toDateString();
+      const savedDate = localStorage.getItem(WOTD_DATE_KEY);
+      let w = localStorage.getItem(WOTD_KEY);
+      if(!w || savedDate!==today){
+        const obj = words[Math.floor(Math.random()*words.length)];
+        w = JSON.stringify(obj);
+        localStorage.setItem(WOTD_KEY,w);
+        localStorage.setItem(WOTD_DATE_KEY,today);
+      }
+      const {en,fr} = JSON.parse(w);
+      document.getElementById('wordOfDay').textContent = `${en} → ${fr}`;
+      return `${en}`;
+    }
+    const currentWotd = pickWordOfDay();
+    document.getElementById('ttsWotd').addEventListener('click',()=>speak(currentWotd,{rate:.95}));
 
-  // 5. FEEDBACK
-  const feedbackForm=document.getElementById('feedbackForm');
-  const feedbackSuccess=document.getElementById('feedbackSuccess');
-  feedbackForm.onsubmit=(e)=>{
-    e.preventDefault();
-    const name=document.getElementById('fbName').value;
-    const surname=document.getElementById('fbSurname').value;
-    const email=document.getElementById('fbEmail').value;
-    const message=document.getElementById('fbMessage').value;
-    if(!message.trim()) return alert("Message cannot be empty!");
-    let feedbacks=JSON.parse(localStorage.getItem('feedbacks')||'[]');
-    feedbacks.push({name,surname,email,message,date:new Date().toISOString()});
-    localStorage.setItem('feedbacks',JSON.stringify(feedbacks));
-    feedbackForm.reset();
-    feedbackSuccess.style.display="block";
-    setTimeout(()=>feedbackSuccess.style.display="none",4000);
-    totalXP+=3; updateXP(totalXP); updateLevel(totalXP); showXPNotification('+3 XP! Feedback Sent ✨'); localStorage.setItem('totalXP', totalXP);
-  }
+    // =============== FEEDBACK & RATING (persist) ===============
+    const feedbackForm=document.getElementById('feedbackForm');
+    const feedbackSuccess=document.getElementById('feedbackSuccess');
+    feedbackForm.addEventListener('submit',e=>{
+      e.preventDefault();
+      const name=document.getElementById('fbName').value.trim();
+      const surname=document.getElementById('fbSurname').value.trim();
+      const email=document.getElementById('fbEmail').value.trim();
+      const message=document.getElementById('fbMessage').value.trim();
+      if(!message) return alert('Message cannot be empty!');
+      const list=JSON.parse(localStorage.getItem('feedbacks')||'[]');
+      list.push({name,surname,email,message,date:new Date().toISOString()});
+      localStorage.setItem('feedbacks',JSON.stringify(list));
+      feedbackForm.reset();
+      feedbackSuccess.style.display='block';
+      rewardToast('🎁 Thanks! +5 JK Diamonds');
+      setTimeout(()=>feedbackSuccess.style.display='none',3500);
+    });
 
-  // 6. RATING
-  const ratingStars=document.querySelectorAll('#starRating span'); let selectedRating=0;
-  ratingStars.forEach(star=>{ star.onclick=()=>{ selectedRating=parseInt(star.dataset.star); updateStars(selectedRating); }; star.onmouseover=()=>updateStars(parseInt(star.dataset.star)); star.onmouseout=()=>updateStars(selectedRating); });
-  function updateStars(rating){ ratingStars.forEach(s=>s.classList.remove('filled')); ratingStars.forEach(s=>{ if(parseInt(s.dataset.star)<=rating) s.classList.add('filled'); }); }
-  document.getElementById('confirmRating').onclick=()=>{
-    if(selectedRating===0) return alert("Please select a rating first!");
-    localStorage.setItem('botRating',selectedRating);
+    const ratingStars=document.querySelectorAll('#starRating span');
+    let selectedRating= parseInt(localStorage.getItem('botRating'))||0;
+    paintStars(selectedRating);
+    ratingStars.forEach(star=>{
+      star.addEventListener('click',()=>{selectedRating=parseInt(star.dataset.star); paintStars(selectedRating);});
+      star.addEventListener('mouseover',()=>paintStars(parseInt(star.dataset.star)));
+      star.addEventListener('mouseout',()=>paintStars(selectedRating));
+    });
+    function paintStars(n){ ratingStars.forEach(s=>{ s.classList.toggle('filled', parseInt(s.dataset.star)<=n); }); }
+    const confirmRatingBtn=document.getElementById('confirmRating');
     const ratingSuccess=document.getElementById('ratingSuccess');
-    ratingSuccess.textContent=`Thanks! You rated the bot ${selectedRating}/5 ⭐`;
-    ratingSuccess.style.display="block";
-    setTimeout(()=>ratingSuccess.style.display="none",4000);
-    totalXP+=2; updateXP(totalXP); updateLevel(totalXP); showXPNotification('+2 XP! Thanks for Rating ✨'); localStorage.setItem('totalXP', totalXP);
-  }
+    confirmRatingBtn.addEventListener('click',()=>{
+      if(selectedRating===0) return alert('Please select a rating first!');
+      localStorage.setItem('botRating',selectedRating);
+      ratingSuccess.textContent=`Thanks! You rated the bot ${selectedRating}/5 ⭐`;
+      ratingSuccess.style.display='block';
+      rewardToast('⭐ Rating saved! +3 XP');
+      totalXP += 3; saveTotalXP(totalXP); updateXP(totalXP); updateLevel(totalXP);
+      setTimeout(()=>ratingSuccess.style.display='none',3500);
+    });
 
-  // 7. XP NOTIFICATION
-  function addSparkle(notif){
-    const sparkleCount=10;
-    for(let i=0;i<sparkleCount;i++){
-      const sparkle=document.createElement('div');
-      sparkle.style.position='absolute'; sparkle.style.width=sparkle.style.height=(Math.random()*6+4)+'px'; sparkle.style.background='#fff';
-      sparkle.style.borderRadius='50%'; sparkle.style.left=Math.random()*notif.offsetWidth+'px';
-      sparkle.style.top=Math.random()*notif.offsetHeight+'px'; sparkle.style.opacity=Math.random();
-      sparkle.style.pointerEvents='none'; sparkle.style.transform=`scale(${Math.random()})`; sparkle.style.filter='blur(1px)';
-      notif.appendChild(sparkle);
-      sparkle.animate([{transform:'translateY(0) scale(0.5)',opacity:1},{transform:`translateY(-${Math.random()*20+10}px) scale(1)`,opacity:0}],{duration:800+Math.random()*400,iterations:1});
-      setTimeout(()=>{if(notif.contains(sparkle)) notif.removeChild(sparkle);},1200);
+    // =============== TOAST & SPARKLE ===============
+    function rewardToast(text){
+      const toast=document.createElement('div');
+      toast.className='toast'; toast.textContent=text; document.body.appendChild(toast);
+      addSparkle(toast);
+      setTimeout(()=>{ toast.style.opacity='0'; },1600);
+      setTimeout(()=>{ if(document.body.contains(toast)) document.body.removeChild(toast); },2200);
     }
-  }
-  function showXPNotification(message){
-    const notif=document.createElement('div');
-    notif.textContent=message;
-    notif.style.position='fixed'; notif.style.bottom='120px'; notif.style.left='50%'; notif.style.transform='translateX(-50%)';
-    notif.style.background='var(--primary)'; notif.style.color='#fff'; notif.style.padding='0.5rem 1rem';
-    notif.style.borderRadius='24px'; notif.style.fontWeight='600'; notif.style.zIndex=9999; notif.style.opacity=1; notif.style.transition='all 2s ease-out'; notif.style.textAlign='center'; notif.style.position='relative';
-    document.body.appendChild(notif); addSparkle(notif);
-    setTimeout(()=>{notif.style.bottom='180px'; notif.style.opacity=0;},50);
-    setTimeout(()=>{document.body.removeChild(notif);},2050);
-  }
+    function addSparkle(container){
+      const n=12; for(let i=0;i<n;i++){ const s=document.createElement('div'); s.style.position='absolute'; const d=4+Math.random()*6; s.style.width=s.style.height=d+'px'; s.style.left=Math.random()*container.offsetWidth+'px'; s.style.top=Math.random()*container.offsetHeight+'px'; s.style.background='#fff'; s.style.borderRadius='50%'; s.style.opacity=Math.random(); s.style.pointerEvents='none'; s.style.filter='blur(1px)'; container.appendChild(s); s.animate([{transform:'translateY(0) scale(.6)',opacity:1},{transform:`translateY(-${10+Math.random()*20}px) scale(1)`,opacity:0}],{duration:700+Math.random()*400,iterations:1}); setTimeout(()=>container.contains(s)&&container.removeChild(s),1200); }
+    }
 
-</script>
-</body>
-      </html>
+    // ===== INIT USER LEVEL TEXT ========
+    userLevel.textContent = `Level: ${levelLabel(totalXP)} • Score: ${score}/${currentQuestionIndex}`;
+
+  </script>
+  </body>
+</html>
