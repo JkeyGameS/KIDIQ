@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>KIDIQ | English Learning Channel</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/achievements.css">
+  <link rel="stylesheet" href="styles/vocabulary.css">
+  <link rel="stylesheet" href="styles/grammar.css">
+  <link rel="stylesheet" href="styles/listening.css">
+  <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body class="light">
+  <!-- Animated background elements -->
+  <div class="animated-bg" id="animatedBg">
+    <div class="sun" id="bgSun"></div>
+    <div class="moon" id="bgMoon" style="display:none;"></div>
+    <div class="cloud" style="top:20%; left:10%; width:100px; height:50px;"></div>
+    <div class="cloud" style="top:40%; left:60%; width:120px; height:60px;"></div>
+    <div class="star" style="top:15%; left:30%;"></div>
+    <div class="star" style="top:25%; left:70%;"></div>
+    <div class="star" style="top:50%; left:50%;"></div>
+    <div class="star" style="top:70%; left:20%;"></div>
+  </div>
+
+  <!-- Theme toggle -->
+  <button id="themeToggle" title="Switch theme" style="position:fixed;top:10px;left:14px;z-index:1001;" tabindex="0" aria-label="Switch theme">🌛</button>
+
+  <!-- Header section -->
+  <header role="banner">
+    <img src="assets/logo.jpg" alt="KIDIQ Logo" id="logo" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMxOWE5NzQiIHJ4PSIyMCIvPjx0ZXh0IHg9IjUwIiB5PSI2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQwIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPks8L3RleHQ+PC9zdmc+'">
+    <h1>KIDIQ</h1>
+    <div class="tagline">TIME TO LEARN ENGLISH</div>
+    <div class="buttons">
+      <a href="https://wa.me/YOURWHATSAPPGROUPLINK" target="_blank" tabindex="0" aria-label="WhatsApp">CHANNEL</a>
+      <a href="https://wa.me/?text=Join%20me%20for%20daily%20English%20lessons%20at%20KIDIQ%3A%20YOURSITEURL" target="_blank" tabindex="0" aria-label="Share channel link">SHARE</a>
+      <a href="#" id="msgBtn" tabindex="0" aria-label="Message">MESSAGE</a>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <!-- Profile section -->
+    <div class="card" id="profileCard">
+      <div id="avatarDisplay" title="Click to change avatar" tabindex="0" aria-pressed="false" role="button">🐱</div>
+      <div id="profileName">Guest</div>
+      <button id="editProfileBtn" tabindex="0" aria-label="Edit Profile">EDIT PROFILE</button>
+      <div id="profileStats">
+        <span id="profileStreak"></span><br>
+        <span id="profileXP"></span>
+        <div id="badgeDisplay">🏅 Badges: <span id="badgeList">None</span></div>
+      </div>
+      <div id="progressHistory" class="muted">📊 Progress History: (coming soon)</div>
+      <button id="requestReportBtn" class="pill-btn" tabindex="0" aria-label="Request Progress Report">Request Progress Report</button>
+    </div>
+
+    <!-- Dashboard section -->
+    <div class="card dashboard-card">
+      <h2>📊 Your Learning Dashboard</h2>
+      <div class="dashboard-grid">
+        <div class="dashboard-item">
+          <h3>Weekly Progress</h3>
+          <div class="progress-chart" id="weeklyProgressChart"></div>
+        </div>
+        <div class="dashboard-item">
+          <h3>Skill Distribution</h3>
+          <div class="skill-chart" id="skillDistributionChart"></div>
+        </div>
+      </div>
+      <div class="stats-overview">
+        <div class="stat">
+          <span class="stat-value" id="wordsLearned">0</span>
+          <span class="stat-label">Words Learned</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="timeSpent">0h 0m</span>
+          <span class="stat-label">Time Spent</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="accuracyRate">0%</span>
+          <span class="stat-label">Accuracy</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievements section -->
+    <div class="card" id="achievementsCard">
+      <h2>🏆 Achievements</h2>
+      <div class="achievements-grid" id="achievementsGrid"></div>
+      <div class="muted">Earn more achievements by completing lessons and challenges!</div>
+    </div>
+
+    <!-- Leaderboard section -->
+    <div class="card" id="leaderboardCard" aria-live="polite">
+      <h2>🏆 Leaderboard</h2>
+      <ul id="leaderboardList"></ul>
+      <div class="muted">Top learners today based on your device's saved progress.</div>
+    </div>
+
+    <!-- Vocabulary Builder section -->
+    <div class="card" id="vocabularyCard">
+      <h2>📚 Vocabulary Builder</h2>
+      <div class="vocab-controls">
+        <button id="startVocabSession" class="pill-btn">Start Practice</button>
+        <select id="vocabCategory">
+          <option value="all">All Words</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <div id="vocabSession" style="display: none;">
+        <div id="vocabWord" class="vocab-word"></div>
+        <div id="vocabOptions" class="vocab-options"></div>
+        <div id="vocabFeedback" class="vocab-feedback"></div>
+        <div class="vocab-progress">
+          <div class="progress-bar">
+            <div id="vocabProgress" class="progress-fill"></div>
+          </div>
+          <span id="vocabProgressText">0/10</span>
+        </div>
+      </div>
+      <div id="vocabStats" class="muted">
+        Words mastered: <span id="wordsMastered">0</span> | 
+        Words learning: <span id="wordsLearning">0</span>
+      </div>
+    </div>
+
+    <!-- Grammar section -->
+    <div class="card" id="grammarCard">
+      <h2>📝 Grammar Practice</h2>
+      <div id="grammarExercise">
+        <p id="grammarQuestion"></p>
+        <div id="grammarOptions" class="grammar-options"></div>
+        <div id="grammarExplanation" class="grammar-explanation"></div>
+      </div>
+      <button id="nextGrammarBtn" class="pill-btn" style="display: none;">Next Question</button>
+      <div class="muted">Practice essential grammar rules with interactive exercises.</div>
+    </div>
+
+    <!-- Listening section -->
+    <div class="card" id="listeningCard">
+      <h2>👂 Listening Comprehension</h2>
+      <div id="listeningExercise">
+        <button id="playAudioBtn" class="pill-btn">Play Audio</button>
+        <div id="listeningQuestion" class="listening-question"></div>
+        <div id="listeningOptions" class="listening-options"></div>
+        <div id="listeningTranscript" class="listening-transcript"></div>
+      </div>
+      <div id="listeningFeedback" class="listening-feedback"></div>
+      <div class="muted">Improve your listening skills with short audio clips.</div>
+    </div>
+
+    <!-- Phrase -->
+    <div class="card">
+      <h2>📖 Phrase of the Day</h2>
+      <p>It's <span class="clickWord" data-fr="pleut beaucoup" style="cursor:pointer; color:var(--primary);">raining</span> cats and dogs.</p>
+      <button id="audioBtnPhrase" tabindex="0" aria-label="Listen Phrase of the Day">🔊 Listen</button>
+    </div>
+
+    <!-- Idiom -->
+    <div class="card">
+      <h2>✨ Idiom</h2>
+      <p>Break a <span class="clickWord" data-fr="jambe" style="cursor:pointer; color:var(--primary);">leg</span>!</p>
+      <button id="audioBtnIdiom" tabindex="0" aria-label="Listen Idiom">🔊 Listen</button>
+    </div>
+
+    <!-- Flashcard -->
+    <div class="card">
+      <h2>Flashcard</h2>
+      <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false" aria-label="Flashcard: click or press enter to flip">
+        <div class="front">🐱 Cat</div>
+        <div class="back">Chat (FR)</div>
+      </div>
+    </div>
+
+    <!-- Word of the Day -->
+    <div class="card">
+      <h2>🌱 Word of the Day</h2>
+      <div id="wordOfDay" aria-live="polite">Loading...</div>
+
+      <!-- Quiz Section -->
+      <div id="wordQuiz" style="margin-top:1rem; display:none;">
+        <h3>📝 Mini Quiz</h3>
+
+        <!-- Spelling -->
+        <div>
+          <p>1️⃣ Spell the word:</p>
+          <input type="text" id="spellInput" placeholder="Type the word...">
+          <button id="spellCheckBtn">Check</button>
+          <div id="spellFeedback"></div>
+        </div>
+
+        <!-- Sentence -->
+        <div style="margin-top:1rem;">
+          <p>2️⃣ Use it in a sentence:</p>
+          <input type="text" id="sentenceInput" placeholder="Make a sentence...">
+          <button id="sentenceCheckBtn">Submit</button>
+          <div id="sentenceFeedback"></div>
+        </div>
+
+        <!-- Pronunciation -->
+        <div style="margin-top:1rem;">
+          <p>3️⃣ Say the word aloud:</p>
+          <button id="sayWordBtn">🎤 Start Speaking</button>
+          <div id="sayWordFeedback"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+        <button id="wodSpeakBtn" class="pill-btn" aria-label="Speak word">▶️ Speak</button>
+        <button id="wodNewBtn" class="pill-btn" aria-label="New word (resets cache)">🔁 New Word (reset)</button>
+      </div>
+      <div id="wodNote" class="muted" style="margin-top:6px;">(We keep the same word for the whole day to help focus.)</div>
+    </div>
+
+    <!-- Motivation -->
+    <div class="card" id="quoteCard" aria-live="polite">
+      <h2>Motivation</h2>
+      <div id="quoteText"></div>
+    </div>
+
+    <!-- Mini Quiz -->
+    <div class="card" id="quizCard" aria-live="polite">
+      <h2>Mini Quiz</h2>
+      <div id="quizQ"></div>
+      <div id="quizOpts"></div>
+      <div id="quizResult" style="margin-top:0.5rem;font-weight:bold;" aria-live="assertive"></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="card" style="text-align:center;">
+      <h2>Your Progress</h2>
+      <div id="xpBarWrapper" aria-label="Experience progress bar" style="margin-bottom:0.6rem;">
+        <div id="xpBar"></div>
+      </div>
+      <div id="userLevel" style="font-weight:600; font-size:1.1rem; color:var(--primary);"></div>
+    </div>
+
+    <!-- Speech Practice -->
+    <div class="card" id="speechPractice" aria-live="polite">
+      <h2>🎤 Pronunciation Practice</h2>
+      <p>Say: <b id="practiceWord">Hello</b></p>
+      <button id="startSpeechBtn" class="pill-btn">Start Speaking</button>
+      <div id="speechResult" style="margin-top:8px;"></div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="card" id="feedbackCard" aria-live="polite">
+      <h2>📬 Send Feedback</h2>
+      <form id="feedbackForm">
+        <input type="text" id="fbName" placeholder="Name (optional)" aria-label="Name" />
+        <input type="text" id="fbSurname" placeholder="Surname (optional)" aria-label="Surname" />
+        <input type="email" id="fbEmail" placeholder="Email (optional)" aria-label="Email" />
+        <textarea id="fbMessage" placeholder="Your message..." aria-label="Message" required></textarea>
+        <button type="submit">Send Feedback</button>
+      </form>
+      <div id="feedbackSuccess" style="display:none; margin-top:10px; font-weight:600; color:var(--primary);">
+        ✅ Thanks! Your feedback has been sent.
+      </div>
+      <h2 style="margin-top:2rem;">⭐ Rate the Bot</h2>
+      <div id="starRating" style="font-size:1.5rem; cursor:pointer;">
+        <span data-star="1">☆</span>
+        <span data-star="2">☆</span>
+        <span data-star="3">☆</span>
+        <span data-star="4">☆</span>
+        <span data-star="5">☆</span>
+      </div>
+      <button id="confirmRating" style="margin-top:0.5rem;">Confirm Rate</button>
+      <div id="ratingSuccess" style="display:none; margin-top:10px; font-weight:600; color:var(--primary);"></div>
+    </div>
+  </main>
+
+  <!-- Chat Modal -->
+  <div id="chatModal" role="dialog" aria-modal="true" aria-labelledby="chatHeaderTitle">
+    <div id="chatHeader">
+      <span id="chatHeaderTitle">💬 Chat with Teacher</span>
+      <button id="chatCloseBtn" class="pill-btn" style="padding:.3rem .6rem; border-radius:10px;">✖</button>
+    </div>
+    <div id="chatMessages" aria-live="polite"></div>
+    <div id="chatInputArea">
+      <input type="text" id="chatInput" placeholder="Type message..." aria-label="Chat message"/>
+      <button id="chatSendBtn">Send</button>
+    </div>
+  </div>
+
+  <div id="streakBox" aria-live="polite"></div>
+  <div id="dictPopup"></div>
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- External Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Our JavaScript files (load in order) -->
+  <script src="js/sounds.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/vocabulary.js"></script>
+  <script src="js/grammar.js"></script>
+  <script src="js/listening.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
