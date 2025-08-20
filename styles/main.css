@@ -1,0 +1,114 @@
+:root {
+  --primary: #19a974;
+  --accent: #ffb41e;
+  --bg-light: #f6fafc;
+  --bg-dark: #0a102a;
+  --text: #112;
+  --card-bg: #fff;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--bg-light);
+  color: var(--text);
+  margin: 0; padding: 0; min-height:100vh;
+  overflow-x: hidden;
+  display: flex; flex-direction: column; align-items: center;
+  position: relative;
+  transition: background 0.5s, color 0.5s;
+}
+
+.animated-bg {
+  position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden; z-index: -1;
+}
+
+body.light .animated-bg { background: linear-gradient(to bottom, #87cefa, #f6fafc); animation: skyDay 20s linear infinite alternate; }
+body.dark .animated-bg { background: linear-gradient(to bottom, #0a102a, #233560); animation: skyNight 25s linear infinite alternate; }
+
+.sun, .moon { position: absolute; border-radius: 50%; animation: floatAcross 40s linear infinite; top: 10%; left: -10%; }
+.sun { width: 80px; height: 80px; background: #ffdd55; box-shadow: 0 0 60px #ffd; }
+.moon { width: 60px; height: 60px; background: #fff; box-shadow: 0 0 30px #eef; top: 20%; }
+.cloud { position: absolute; background: #fff; border-radius: 50%; opacity: 0.8; animation: cloudMove 60s linear infinite; }
+.cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+.cloud::before { width: 60px; height: 60px; left: -30px; top: -20px; }
+.cloud::after  { width: 70px; height: 70px; left: 40px; top: -10px; }
+.star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; opacity: 0.7; animation: twinkle 3s infinite alternate; display: none; }
+
+@keyframes floatAcross { from{ left:-10%; } to{ left:110%; } }
+@keyframes cloudMove    { from{ left:-20%; } to{ left:120%; } }
+@keyframes skyDay       { from{ filter:brightness(1); } to{ filter:brightness(1.1); } }
+@keyframes skyNight     { from{ filter:brightness(0.7); } to{ filter:brightness(0.9); } }
+@keyframes twinkle      { from{ opacity:0.3; } to{ opacity:1; } }
+@keyframes fadeInUp     { to { opacity:1; transform:translateY(0); } }
+@keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+.xpPop { animation: pop .45s ease; }
+
+header { margin: 2rem 0 1rem 0; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+#logo { width: 100px; height: 100px; object-fit: contain; border-radius: 20%; background: #fff; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+h1 { margin: 1rem 0 0.4rem 0; font-size: 2rem; color: var(--primary); text-shadow: 0 2px 4px #fff7; }
+.tagline { color: #555; font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center; }
+
+.buttons { display: flex; gap: 0.7rem; margin-bottom: 1.3rem; flex-wrap: wrap; justify-content: center; }
+.buttons a, #themeToggle, #editProfileBtn, #audioBtnPhrase, #audioBtnIdiom, .pill-btn {
+  background: var(--primary); color: #fff; padding: 0.7rem 1.3rem; text-decoration: none; font-weight: 600; border-radius: 24px; box-shadow: 0 2px 8px #19a97433; display: inline-flex; align-items: center; gap: 0.5em; transition: background 0.3s; border: none; cursor: pointer;
+}
+.buttons a:hover, #themeToggle:hover, #editProfileBtn:hover, #audioBtnPhrase:hover, #audioBtnIdiom:hover, .pill-btn:hover { background: var(--accent); color: #222; }
+
+main { max-width: 500px; width: 95vw; margin: 0 auto; z-index: 2; }
+.card {
+  background: var(--card-bg); border-radius: 16px; box-shadow: 0 4px 24px #0002; padding: 1.6rem 1.2rem; margin-bottom: 1.7rem;
+  opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s forwards; transition: background 0.4s;
+}
+.card h2 { margin-top: 0; color: var(--primary); display: flex; align-items: center; gap: 0.4em; font-size: 1.3rem; }
+.card p { font-size: 1rem; margin: 0.5rem 0; }
+.card button { background: var(--primary); border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 10px; cursor: pointer; }
+.card button:hover { background: var(--accent); color: #222; }
+
+.flashcard { width: 150px; height: 100px; perspective: 1000px; margin: 1em auto; cursor: pointer; position: relative; }
+.flashcard div { width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; display: flex; align-items: center; justify-content: center; position: absolute; transition: transform 0.6s; font-weight: bold; }
+.flashcard .front { background: var(--primary); color: #fff; }
+.flashcard .back  { background: var(--accent); color: #222; transform: rotateY(180deg); }
+.flashcard.flip .front { transform: rotateY(180deg); }
+.flashcard.flip .back  { transform: rotateY(360deg); }
+
+#streakBox { position: fixed; top: 8px; right: 8px; background: #fff; padding: 6px 12px; border-radius: 8px; box-shadow: 0 2px 6px #0002; font-weight: 600; z-index: 999; text-align: center; font-size: 1rem; min-width: 140px; }
+body.dark #streakBox { background: #222; color: #ffb41e; }
+#xpBarWrapper { background: #ddd; border-radius: 10px; height: 14px; margin-top: 6px; }
+#xpBar { background: var(--primary); height: 100%; border-radius: 10px; width: 0%; transition: width 0.3s; }
+
+#dictPopup { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--card-bg); padding: 1rem; border-radius: 12px; box-shadow: 0 4px 16px #0004; display: none; max-width: 320px; z-index: 1000; }
+#profileCard { text-align: center; margin-bottom: 1.7rem; }
+#avatarDisplay { font-size: 3rem; cursor: pointer; }
+#profileName { font-weight: 600; font-size: 1.3rem; margin: 0.2rem 0; }
+#editProfileBtn { background: var(--primary); color: white; border: none; border-radius: 24px; padding: 0.4rem 1rem; font-size: 0.9rem; cursor: pointer; box-shadow: 0 2px 8px #19a97433; transition: background 0.3s; display: block; margin-left: auto; margin-right: auto; margin-bottom: 40px; }
+#editProfileBtn:hover { background: var(--accent); color: #222; }
+#badgeDisplay { margin-top: 10px; font-weight: 600; color: var(--primary); font-size: 1rem; }
+#progressHistory { margin-top: 12px; font-size: 0.95rem; color: #555; }
+#requestReportBtn { margin-top: 10px; background: var(--accent); color: #222; border-radius: 24px; font-weight: 600; cursor: pointer; border: none; padding: 0.5rem 1rem; box-shadow: 0 2px 8px #ffb41e99; transition: background 0.3s; }
+#requestReportBtn:hover { background: var(--primary); color: #fff; }
+
+#quizCard.disabled { opacity: 0.6; pointer-events: none; user-select: none; }
+#wordOfDay { font-size: 1.1rem; margin-top: 0.5rem; }
+
+/* Feedback */
+#feedbackForm input, #feedbackForm textarea { width: 100%; padding: 0.6rem; margin: 0.4rem 0; border-radius: 12px; border: 1px solid #ccc; font-size: 1rem; box-sizing: border-box; }
+#feedbackForm textarea { min-height:80px; resize:none; }
+#feedbackForm button, #confirmRating { background: var(--primary); color: #fff; border: none; padding: 0.6rem 1rem; border-radius: 24px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 8px #19a97433; transition: background 0.3s; }
+#feedbackForm button:hover, #confirmRating:hover { background: var(--accent); color:#222; }
+#starRating span { transition: color 0.2s; cursor: pointer; }
+#starRating span.filled { color: gold; }
+
+/* Leaderboard */
+#leaderboardList { list-style: none; padding-left: 0; margin: 0.4rem 0 0 0; }
+#leaderboardList li { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0.7rem; border-radius: 10px; background: #00000008; margin-bottom: 6px; font-weight: 600; }
+body.dark #leaderboardList li { background:#ffffff14; }
+
+/* Chat Modal */
+#chatModal { position: fixed; bottom: 24px; right: 16px; width: 300px; height: 380px; background: var(--card-bg); border-radius: 14px; box-shadow: 0 10px 30px #0004; display: none; flex-direction: column; overflow: hidden; z-index: 2000; }
+#chatHeader { background: var(--primary); color:#fff; padding: 0.6rem 0.9rem; display:flex; align-items:center; justify-content: space-between; font-weight: 700; }
+#chatMessages { flex:1; padding: 0.7rem; overflow-y:auto; font-size: 0.95rem; }
+#chatInputArea { display:flex; border-top: 1px solid #0001; }
+#chatInputArea input { flex:1; border: none; padding: 0.6rem 0.7rem; outline: none; font-size: 0.95rem; }
+#chatInputArea button { border: none; background: var(--primary); color:#fff; padding: 0.6rem 1rem; font-weight:600; }
+
+.muted { color:#666; font-size:0.9rem; }

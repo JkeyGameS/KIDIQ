@@ -1,0 +1,55 @@
+/* Achievement notifications */
+.achievement-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
+  max-width: 300px;
+}
+
+body.dark .achievement-notification {
+  background: #2a3040;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.achievement-notification.show {
+  transform: translateX(0);
+}
+
+.achievement-notification h3 {
+  margin-top: 0;
+  color: var(--primary);
+  text-align: center;
+}
+
+.achievement-notification-item {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.achievement-notification-item .achievement-icon {
+  font-size: 2rem;
+  margin-right: 10px;
+  filter: saturate(1);
+}
+
+.achievement-notification-item .achievement-name {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.achievement-notification-item .achievement-desc {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+body.dark .achievement-notification-item .achievement-desc {
+  color: #aaa;
+}

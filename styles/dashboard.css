@@ -1,0 +1,60 @@
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.dashboard-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 15px;
+  height: 150px;
+}
+
+body.dark .dashboard-item {
+  background: #2a3040;
+}
+
+.dashboard-item h3 {
+  margin-top: 0;
+  font-size: 1rem;
+  color: var(--primary);
+  text-align: center;
+}
+
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.stat {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body.dark .stat {
+  background: #2a3040;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.progress-chart, .skill-chart {
+  height: 120px;
+  position: relative;
+}

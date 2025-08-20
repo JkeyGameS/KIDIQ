@@ -1,0 +1,67 @@
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.achievement {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid #e9ecef;
+}
+
+body.dark .achievement {
+  background: #2a3040;
+  border-color: #3e4560;
+}
+
+.achievement.earned {
+  border-color: var(--accent);
+  background: #fff9e6;
+}
+
+body.dark .achievement.earned {
+  background: #3a2e1f;
+}
+
+.achievement.earned .achievement-icon {
+  filter: saturate(1);
+  transform: scale(1.1);
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  filter: saturate(0.2);
+  transition: all 0.3s;
+}
+
+.achievement-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.achievement-progress {
+  height: 4px;
+  background: #dee2e6;
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.achievement-progress-bar {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  transition: width 0.5s;
+}
