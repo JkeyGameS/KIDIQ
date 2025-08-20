@@ -13,10 +13,7 @@ body {
   color: var(--text);
   margin: 0; padding: 0; min-height: 100vh;
   overflow-x: hidden;
-  /* Changed from flex to block to avoid narrow strip issue */
   display: block;
-  /* If you keep flex, use this instead */
-  /* display: flex; flex-direction: column; align-items: stretch; */
   position: relative;
   transition: background 0.5s, color 0.5s;
 }
@@ -95,7 +92,8 @@ h1 {
   cursor: pointer;
 }
 .buttons a:hover, #themeToggle:hover, #editProfileBtn:hover, #audioBtnPhrase:hover, #audioBtnIdiom:hover, .pill-btn:hover {
-  background: var(--accent); color: #222;
+  background: var(--accent);
+  color: #222;
 }
 
 main {
@@ -113,7 +111,7 @@ main {
   margin-bottom: 1.7rem;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.8s forwards; /* Ensure animation stays at end state */
+  animation: fadeInUp 0.8s forwards;
   transition: background 0.4s;
 }
 
@@ -142,4 +140,265 @@ main {
   color: #222;
 }
 
-/* Rest of your CSS unchanged... */
+.flashcard {
+  width: 150px;
+  height: 100px;
+  perspective: 1000px;
+  margin: 1em auto;
+  cursor: pointer;
+  position: relative;
+}
+.flashcard div {
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  transition: transform 0.6s;
+  font-weight: bold;
+}
+.flashcard .front {
+  background: var(--primary);
+  color: #fff;
+}
+.flashcard .back  {
+  background: var(--accent);
+  color: #222;
+  transform: rotateY(180deg);
+}
+.flashcard.flip .front {
+  transform: rotateY(180deg);
+}
+.flashcard.flip .back  {
+  transform: rotateY(360deg);
+}
+
+#streakBox {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px #0002;
+  font-weight: 600;
+  z-index: 999;
+  text-align: center;
+  font-size: 1rem;
+  min-width: 140px;
+}
+body.dark #streakBox {
+  background: #222;
+  color: #ffb41e;
+}
+#xpBarWrapper {
+  background: #ddd;
+  border-radius: 10px;
+  height: 14px;
+  margin-top: 6px;
+}
+#xpBar {
+  background: var(--primary);
+  height: 100%;
+  border-radius: 10px;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+#dictPopup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card-bg);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px #0004;
+  display: none;
+  max-width: 320px;
+  z-index: 1000;
+}
+#profileCard {
+  text-align: center;
+  margin-bottom: 1.7rem;
+}
+#avatarDisplay {
+  font-size: 3rem;
+  cursor: pointer;
+}
+#profileName {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 0.2rem 0;
+}
+#editProfileBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #19a97433;
+  transition: background 0.3s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+#editProfileBtn:hover {
+  background: var(--accent);
+  color: #222;
+}
+#badgeDisplay {
+  margin-top: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 1rem;
+}
+#progressHistory {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #555;
+}
+#requestReportBtn {
+  margin-top: 10px;
+  background: var(--accent);
+  color: #222;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px #ffb41e99;
+  transition: background 0.3s;
+}
+#requestReportBtn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+#quizCard.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+}
+#wordOfDay {
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* Feedback */
+#feedbackForm input, #feedbackForm textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.4rem 0;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+#feedbackForm textarea {
+  min-height: 80px;
+  resize: none;
+}
+#feedbackForm button, #confirmRating {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #19a97433;
+  transition: background 0.3s;
+}
+#feedbackForm button:hover, #confirmRating:hover {
+  background: var(--accent);
+  color: #222;
+}
+#starRating span {
+  transition: color 0.2s;
+  cursor: pointer;
+}
+#starRating span.filled {
+  color: gold;
+}
+
+/* Leaderboard */
+#leaderboardList {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.4rem 0 0 0;
+}
+#leaderboardList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0.7rem;
+  border-radius: 10px;
+  background: #00000008;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+body.dark #leaderboardList li {
+  background: #ffffff14;
+}
+
+/* Chat Modal */
+#chatModal {
+  position: fixed;
+  bottom: 24px;
+  right: 16px;
+  width: 300px;
+  height: 380px;
+  background: var(--card-bg);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px #0004;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 2000;
+}
+#chatHeader {
+  background: var(--primary);
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+}
+#chatMessages {
+  flex: 1;
+  padding: 0.7rem;
+  overflow-y: auto;
+  font-size: 0.95rem;
+}
+#chatInputArea {
+  display: flex;
+  border-top: 1px solid #0001;
+}
+#chatInputArea input {
+  flex: 1;
+  border: none;
+  padding: 0.6rem 0.7rem;
+  outline: none;
+  font-size: 0.95rem;
+}
+#chatInputArea button {
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+}
+
+.muted {
+  color: #666;
+  font-size: 0.9rem;
+       }
+       
